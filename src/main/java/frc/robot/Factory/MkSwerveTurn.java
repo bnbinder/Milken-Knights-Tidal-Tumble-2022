@@ -5,12 +5,21 @@
 package frc.robot.Factory;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
 /** Add your docs here. */
 public class MkSwerveTurn extends MkFalcon 
 {
-    public MkSwerveTurn(int canid, NeutralMode mode, double[] pid, boolean inverted, int scurve)
+    private MkCANCoder coder;
+
+    public MkSwerveTurn(int[] canid, double offset, NeutralMode mode, double[] pid, boolean[] inverted, int scurve, AbsoluteSensorRange range)
     {
-        super(canid, mode, pid, inverted, scurve);
+        super(canid[0], mode, pid, inverted[0], scurve);
+        coder = new MkCANCoder(canid[1], offset, inverted[1], range);
+    }
+
+    public void zeroMotorCANCoder()
+    {
+        super.setFalconEncoder(coder.getAbsPosition());
     }
 }

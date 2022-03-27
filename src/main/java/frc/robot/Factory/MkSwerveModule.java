@@ -6,6 +6,7 @@ package frc.robot.Factory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
 /** Add your docs here. */
 public class MkSwerveModule
@@ -13,10 +14,16 @@ public class MkSwerveModule
     private MkSwerveDrive drive;
     private MkSwerveTurn turn;
 
-    public MkSwerveModule(int[] canid, NeutralMode[] mode, double[][] pid, boolean[] inverted, int[] scurve)
+    public MkSwerveModule(int[][] canid, double offset, NeutralMode[] mode, double[][] pid, boolean[][] inverted, int[] scurve, AbsoluteSensorRange range)
     {  
-        this.drive = new MkSwerveDrive(canid[1], mode[1], pid[1], inverted[1], scurve[1]);
-        this.turn = new MkSwerveTurn(canid[0], mode[0], pid[0], inverted[0], scurve[0]);
+        this.drive = new MkSwerveDrive(canid[0][0], mode[0], pid[0], inverted[0][0], scurve[0]);
+        this.turn = new MkSwerveTurn(canid[1], offset, mode[1], pid[1], inverted[1], scurve[1], range);
+    }
+
+    public void setModule(double setpoint, ControlMode mode, double angle)
+    {
+        drive.setFalcon(mode, setpoint);
+        turn.setFalcon(ControlMode.Position, angle);
     }
 
     public MkSwerveDrive driveMotor()
@@ -27,11 +34,5 @@ public class MkSwerveModule
     public MkSwerveTurn turnMotor()
     {
         return turn;
-    }
-
-    public void setModule(double setpoint, ControlMode mode, double angle)
-    {
-        drive.setFalcon(mode, setpoint);
-        turn.setFalcon(ControlMode.Position, angle);
     }
 }

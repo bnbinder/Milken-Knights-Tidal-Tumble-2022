@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
 /** Add your docs here. */
 public final class Constants {
@@ -17,7 +18,7 @@ public final class Constants {
         public static final int statusOneMeas = 25;
         public static final int statusTwoMeas = 25;
         public static final double voltComp = 12;
-        public static double oneEncoderRotation = 2048;
+        public static final double oneEncoderRotation = 2048;
     }
 
     public static class MKDRIVE 
@@ -63,6 +64,18 @@ public final class Constants {
         public static final double greerRatio = 0;
     }
 
+    public static class MKCANCODER
+    {
+        public static final double topLeftOffset = -72.685546875;
+        public static final double topRightOffset = -9.4921875;
+        public static final double bottomLeftOffset = -117.24609375;
+        public static final double bottomRightOffset = 46.0546875;
+
+        public static final AbsoluteSensorRange range = AbsoluteSensorRange.Signed_PlusMinus180;
+
+        public static final boolean inverted = true;
+    }
+
     public static class MKTRAIN 
     {
         public static final double[][][] pidf = 
@@ -93,12 +106,12 @@ public final class Constants {
             {MKDRIVE.mode, MKTURN.mode}
         };
 
-        public static final boolean[][] inverted =
+        public static final boolean[][][] inverted =
         {
-            {MKDRIVE.inverted, MKTURN.inverted},
-            {MKDRIVE.inverted, MKTURN.inverted},
-            {MKDRIVE.inverted, MKTURN.inverted},
-            {MKDRIVE.inverted, MKTURN.inverted}
+            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
+            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
+            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
+            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}}
         };
 
         public static final int[][] scurve = 
@@ -108,6 +121,8 @@ public final class Constants {
             {MKDRIVE.scurve, MKTURN.scurve},
             {MKDRIVE.scurve, MKTURN.scurve}
         };
+
+        public static final double[] offset = {MKCANCODER.topLeftOffset, MKCANCODER.topRightOffset, MKCANCODER.bottomLeftOffset, MKCANCODER.bottomRightOffset};
 
         public static final double L = 22.57;
         public static final double W = 22.57;
@@ -122,22 +137,27 @@ public final class Constants {
 
     public static class CANID 
     {
-        public static int topDriveLeftCANID = 3; 
-        public static int topDriveRightCANID = 5; 
-        public static int bottomDriveLeftCANID = 2; 
-        public static int bottomDriveRightCANID = 7;
+        public static final int topDriveLeftCANID = 3; 
+        public static final int topDriveRightCANID = 5; 
+        public static final int bottomDriveLeftCANID = 2; 
+        public static final int bottomDriveRightCANID = 7;
 
-        public static int topTurnLeftCANID = 4; 
-        public static int topTurnRightCANID = 6; 
-        public static int bottomTurnLeftCANID = 1;
-        public static int bottomTurnRightCANID = 8; 
+        public static final int topTurnLeftCANID = 4; 
+        public static final int topTurnRightCANID = 6; 
+        public static final int bottomTurnLeftCANID = 1;
+        public static final int bottomTurnRightCANID = 8; 
+
+        public static final int topTurnLeftCANCoderCANID = 16; 
+        public static final int topTurnRightCANCoderCANID = 18; 
+        public static final int bottomTurnLeftCANCoderCANID = 15; 
+        public static final int bottomTurnRightCANCoderCANID = 17;
         
-        public static int[][] MkTrainIds =
+        public static final int[][][] MkTrainIds =
         {
-            {topDriveLeftCANID, topTurnLeftCANID},
-            {topDriveRightCANID, topTurnRightCANID},
-            {bottomDriveLeftCANID, bottomTurnLeftCANID},
-            {bottomDriveRightCANID, bottomTurnRightCANID}
+            {{topDriveLeftCANID}, {topTurnLeftCANID, topTurnLeftCANCoderCANID}},
+            {{topDriveRightCANID}, {topTurnRightCANID, topTurnRightCANCoderCANID}},
+            {{bottomDriveLeftCANID}, {bottomTurnLeftCANID, bottomTurnLeftCANCoderCANID}},
+            {{bottomDriveRightCANID}, {bottomTurnRightCANID, bottomTurnRightCANCoderCANID}}
         };
     }
 }

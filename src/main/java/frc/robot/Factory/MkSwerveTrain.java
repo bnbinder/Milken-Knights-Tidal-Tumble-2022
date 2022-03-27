@@ -5,10 +5,12 @@
 package frc.robot.Factory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
 import frc.robot.Constants;
 import frc.robot.navx;
 import frc.robot.Constants.CANID;
+import frc.robot.Constants.MKCANCODER;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
 import frc.robot.ToolShed.FalconAlgorithims;
@@ -22,19 +24,46 @@ public class MkSwerveTrain
     private navx navX;
     private variables vars;
 
+    private MkSwerveTrain()
+    {
+        for(int i = 0; i < modules.length; i++)
+        {
+            modules[i] = new MkSwerveModule(CANID.MkTrainIds[i], MKTRAIN.offset[i], MKTRAIN.mode[i], MKTRAIN.pidf[i], MKTRAIN.inverted[i], MKTRAIN.scurve[i], MKCANCODER.range);
+        }
+        navX = navx.getInstance();
+        vars = new variables();
+    }
+
     public static MkSwerveTrain getInstance()
     {
         return InstanceHolder.mInstance;
     }
 
-    private MkSwerveTrain()
+    public void updateSwerve()
     {
         for(int i = 0; i < modules.length; i++)
         {
-            modules[i] = new MkSwerveModule(CANID.MkTrainIds[i], MKTRAIN.mode[i], MKTRAIN.pidf[i], MKTRAIN.inverted[i], MKTRAIN.scurve[i]);
+            vars.velNative[i] = modules[i].driveMotor().getVelocity();
+            
+
+            vars.posNative[i] = modules[i].driveMotor().getPosition();
+            
+            vars.velInch[i] = FalconAlgorithims.nativePer100MstoInchesPerSec(vars.velNative[i]);
+            
+
+            vars.posInch[i] = FalconAlgorithims.nativeToInches(vars.posNative[i]);
+        
+            
+            vars.velMeters[i] = FalconAlgorithims.nativePer100MsToMetersPerSec(vars.velNative[i]);
+            
+
+            vars.posMeters[i] = FalconAlgorithims.nativeToMeters(vars.posNative[i]);
+
+            vars.deg[i] = FalconAlgorithims.nativeToDegrees(modules[i].turnMotor().getPosition(), MKTURN.greerRatio);
         }
-        navX = navx.getInstance();
-        vars = new variables();
+        vars.avgDistInches = (vars.posInch[0] + vars.posInch[1] + vars.posInch[2] + vars.posInch[3]) /4.0;
+        vars.avgVelInches = (vars.velInch[0] + vars.velInch[1] + vars.velInch[2] + vars.velInch[3]) / 4.0;
+        vars.avgVelNative = (vars.velNative[0] + vars.velNative[1] + vars.velNative[2] + vars.velNative[3]) / 4.0;
     }
 
     public void etherSwerve(double FWD, double STR, double RCW)
@@ -76,15 +105,15 @@ public class MkSwerveTrain
         vars.ws3 *= vars.mod3[1];
         vars.ws4 *= vars.mod4[1];
 
-        modules[1].turnMotor().setFalcon(ControlMode.Position, FalconAlgorithims.degreesToNative(vars.wa1, MKTURN.greerRatio)); 
-        modules[0].turnMotor().setFalcon(ControlMode.Position, FalconAlgorithims.degreesToNative(vars.wa2, MKTURN.greerRatio)); 
-        modules[2].turnMotor().setFalcon(ControlMode.Position, FalconAlgorithims.degreesToNative(vars.wa3, MKTURN.greerRatio)); 
-        modules[3].turnMotor().setFalcon(ControlMode.Position, FalconAlgorithims.degreesToNative(vars.wa4, MKTURN.greerRatio)); 
+        modules[1].setModule(vars.ws2, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(vars.wa2, MKTURN.greerRatio));
+        modules[0].setModule(vars.ws1, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(vars.wa1, MKTURN.greerRatio));
+        modules[2].setModule(vars.ws3, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(vars.wa3, MKTURN.greerRatio));
+        modules[3].setModule(vars.ws4, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(vars.wa4, MKTURN.greerRatio));
+    }
 
-        modules[1].driveMotor().setFalcon(ControlMode.PercentOutput, vars.ws2);
-        modules[0].driveMotor().setFalcon(ControlMode.PercentOutput, vars.ws1);
-        modules[2].driveMotor().setFalcon(ControlMode.PercentOutput, vars.ws3);
-        modules[3].driveMotor().setFalcon(ControlMode.PercentOutput, vars.ws4);
+    public MkSwerveModule[] getModules()
+    {
+        return modules;
     }
 
     private static class InstanceHolder
@@ -113,5 +142,42 @@ public class MkSwerveTrain
         public double mod3[];
         public double mod4[];
         public double max;
+
+        /**Distance variable for driving in autonomous*/
+    private double distance;
+
+    /**Position of the driving motor in native units*/
+       private double[] posNative;
+       
+    /**Position of the driving motor in inches*/
+       private double[] posInch;
+   
+    /**Position of the driving motor in meters*/
+       private double[] posMeters;
+       
+    /**Velocity of the driving motor in inches*/
+       private double[] velInch;
+   
+    /**Velocity of the driving motor in native units*/
+       private double[] velNative;
+       
+    /**Velocity of the driving motor in meters*/
+       private double[] velMeters;
+   
+    /**Position of the turning motor in degrees*/
+       private double[] deg;
+   
+    /**Driving motor values for autonomous*/
+       private double[] output;
+   
+    /**Average velocity of driving motors in inches*/
+       private double avgVelInches;
+   
+    /**Average velocity of driving motors in native units*/
+       private double avgVelNative;
+   
+    /**Average distance of driving motors in inches*/
+       private double avgDistInches;
+   
     }
 }
