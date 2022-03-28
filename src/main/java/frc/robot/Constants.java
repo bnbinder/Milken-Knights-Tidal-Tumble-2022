@@ -136,6 +136,12 @@ public final class Constants {
         public static final double offset = 0;
     }
 
+    public static class CONTROLLERS 
+    {
+        public static final int driverPort = 0;
+        public static final int opPort = 1;
+    }
+
     public static class CANID 
     {
         public static final int topDriveLeftCANID = 3; 

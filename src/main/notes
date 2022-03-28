@@ -1,4 +1,4 @@
-swerd made getinstance so he didnt have to expliocitley call a constructor, he just calls it when calling the get instance function
+swerd made getinstance so he didnt have to explicitley call a constructor, he just calls it when calling the get instance function
 
 so it isnt haram to have a constructor, since you never have to call it, only the get instance fucntion
 

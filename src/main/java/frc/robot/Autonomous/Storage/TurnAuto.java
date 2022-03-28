@@ -4,7 +4,7 @@
 
 package frc.robot.Autonomous.Storage;
 
-import frc.robot.Factory.MkSwerveTrain;
+import frc.robot.Factory.Motor.MkSwerveTrain;
 
 /** Add your docs here. */
 public class TurnAuto {

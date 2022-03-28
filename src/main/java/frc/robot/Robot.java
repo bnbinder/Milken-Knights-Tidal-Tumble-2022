@@ -10,10 +10,10 @@ import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
-import frc.robot.Factory.MkSwerveDrive;
-import frc.robot.Factory.MkSwerveModule;
-import frc.robot.Factory.MkSwerveTrain;
-import frc.robot.Factory.MkSwerveTurn;
+import frc.robot.Factory.Motor.MkSwerveDrive;
+import frc.robot.Factory.Motor.MkSwerveModule;
+import frc.robot.Factory.Motor.MkSwerveTrain;
+import frc.robot.Factory.Motor.MkSwerveTurn;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
 

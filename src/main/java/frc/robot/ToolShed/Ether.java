@@ -10,8 +10,8 @@ import frc.robot.Constants;
 import frc.robot.navx;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
-import frc.robot.Factory.MkSwerveModule;
-import frc.robot.Factory.MkSwerveTrain;
+import frc.robot.Factory.Motor.MkSwerveModule;
+import frc.robot.Factory.Motor.MkSwerveTrain;
 
 /** Add your docs here. */
 public class Ether extends SwerveAlgorithims

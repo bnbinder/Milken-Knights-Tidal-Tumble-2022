@@ -6,7 +6,7 @@ package frc.robot.Autonomous.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Autonomous.Storage.TurnAuto;
-import frc.robot.Factory.MkSwerveTrain;
+import frc.robot.Factory.Motor.MkSwerveTrain;
 
 public class Turn extends CommandBase {
   /** Creates a new Turn. */
