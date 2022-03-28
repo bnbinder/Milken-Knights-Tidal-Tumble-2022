@@ -10,11 +10,6 @@ import frc.robot.Factory.MkSwerveTrain;
 public class TurnAuto {
     private double angle;
 
-    private TurnAuto()
-    {
-
-    }
-
     public static TurnAuto getInstance()
     {
         return InstanceHolder.mInstance;

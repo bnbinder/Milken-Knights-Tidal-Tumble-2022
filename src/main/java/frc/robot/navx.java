@@ -10,12 +10,7 @@ import frc.robot.Constants.NAVX;
 
 /** Add your docs here. */
 public class navx {
-    private AHRS navx;
-
-    private navx()
-    {
-        navx = new AHRS();
-    }
+    private AHRS navx = new AHRS();
 
     public static navx getInstance()
     {

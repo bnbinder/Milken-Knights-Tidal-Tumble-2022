@@ -15,11 +15,6 @@ public class EtherAuto {
     private double totalDistance;
     private double avgDistInches;
 
-    private EtherAuto()
-    {
-        
-    }
-
     public static EtherAuto getInstance()
     {
         return InstanceHolder.mInstance;

@@ -1,8 +1,52 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.Dashboard;
 
-/** Add your docs here. */
-public class Shuffle {}
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class Shuffle {
+
+  private double lastTime = Timer.getFPGATimestamp();
+  private boolean mUpdateDashboard;
+  private int loopOverrunWarning;
+  private int loopCounter;
+
+  public static Shuffle getInstance() {
+    return InstanceHolder.mInstance;
+  }
+
+  public void updateDeltaTime() {
+    loopCounter++;
+    double time = Timer.getFPGATimestamp();
+    double dt = (time - lastTime) * 1e3;
+    SmartDashboard.putNumber("Loop Dt", dt);
+    lastTime = time;
+
+    if (dt > 22) {
+      loopOverrunWarning++;
+    }
+
+    if (loopCounter == 500) {
+      if (loopOverrunWarning > 10) {
+        Shuffleboard.addEventMarker("Loop Time Over 22ms for more than 10 loops in the past 5 seconds.", EventImportance.kHigh);
+        loopCounter = 0;
+      }
+    }
+  }
+
+  public void update() {
+    updateDeltaTime();
+    if (mUpdateDashboard) {
+      mUpdateDashboard = false;
+      //put update functions here
+    } else {
+      mUpdateDashboard = true;
+    }
+  }
+
+  private static class InstanceHolder {
+
+    private static final Shuffle mInstance = new Shuffle();
+  }
+}

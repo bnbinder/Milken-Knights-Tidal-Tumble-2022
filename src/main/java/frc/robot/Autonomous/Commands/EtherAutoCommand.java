@@ -21,6 +21,7 @@ public class EtherAutoCommand extends CommandBase {
   private ETHERAUTO mode;
   private ETHERRCW turny;
   private double turnyAuto;
+  
   public EtherAutoCommand(double distanceA, double lengthB, double RCWauto, double turnyAuto, ETHERAUTO mode, ETHERRCW turny)
   {
     this.distanceA = distanceA;
