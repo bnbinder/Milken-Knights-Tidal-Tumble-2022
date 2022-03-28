@@ -18,12 +18,19 @@ public class MkSwerveModule
     {  
         this.drive = new MkSwerveDrive(canid[0][0], mode[0], pid[0], inverted[0][0], scurve[0]);
         this.turn = new MkSwerveTurn(canid[1], offset, mode[1], pid[1], inverted[1], scurve[1], range);
+        this.turn.zeroMotorCANCoder();
     }
 
     public void setModule(double setpoint, ControlMode mode, double angle)
     {
         drive.setFalcon(mode, setpoint);
         turn.setFalcon(ControlMode.Position, angle);
+    }
+
+    public void setModuleMagic(double velocity, double accel)
+    {
+        drive.getFalcon().configMotionCruiseVelocity(velocity);
+        drive.getFalcon().configMotionAcceleration(accel);
     }
 
     public MkSwerveDrive driveMotor()

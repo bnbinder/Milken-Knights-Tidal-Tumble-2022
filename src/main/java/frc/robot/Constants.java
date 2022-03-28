@@ -128,6 +128,7 @@ public final class Constants {
         public static final double W = 22.57;
         public static final double R = Math.sqrt(Math.pow(L, 2) + Math.pow(W, 2));
 
+        public static final double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
     }
 
     public static class NAVX 

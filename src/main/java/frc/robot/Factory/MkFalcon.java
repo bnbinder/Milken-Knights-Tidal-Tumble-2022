@@ -80,4 +80,9 @@ public class MkFalcon {
     {
         return falcon.getClosedLoopError();
     }
+
+    public TalonFX getFalcon()
+    {
+        return falcon;
+    }
 }

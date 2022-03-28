@@ -4,6 +4,7 @@
 
 package frc.robot.ToolShed;
 
+import frc.robot.navx;
 import frc.robot.Constants.MKTURN;
 import frc.robot.ToolShed.FalconAlgorithims;
 
@@ -29,5 +30,17 @@ public class SwerveAlgorithims {
             // flip the motor direction and use the setpoint + 180
             return new double[] {(currentAngle + setpointAngleFlipped), -1.0};
         }
+    }
+
+    double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
+    double hIntegral, hDerivative, hPreviousError, hError;
+
+    //programming done right
+    public double headerStraighter(double hSetpoint)
+    {
+        hError = hSetpoint -  navx.getInstance().getNavxYaw();// Error = Target - Actual
+        hIntegral += (hError*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+        hDerivative = (hError - hPreviousError) / .02;
+        return hP*hError + hI*hIntegral + hD*hDerivative;
     }
 }

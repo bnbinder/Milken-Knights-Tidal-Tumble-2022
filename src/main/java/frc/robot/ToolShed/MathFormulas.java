@@ -50,7 +50,7 @@ public class MathFormulas {
      * @param lengthB
      * @return Radius of the path
      */
-    public double calculateCircleRadius(double distanceA, double lengthB) {
+    public static double calculateCircleRadius(double distanceA, double lengthB) {
         return ((Math.pow(distanceA, 2) / 4) + Math.pow(lengthB, 2)) * (1 / (2 * lengthB));
     }
 
@@ -102,7 +102,7 @@ public class MathFormulas {
      * @return Circumference of the linear path / distance of curved path
      * @see {@link #calculateCircleRadius(distanceA, lengthB)}
      */
-    public double calculateArcOfPath(double distanceA, double lengthB) {
+    public static double calculateArcOfPath(double distanceA, double lengthB) {
         double radius = calculateCircleRadius(distanceA, lengthB);
         double theta = 2 * (Math.toDegrees((Math.asin((distanceA / (2 * radius))))));
         return (theta / 360) * (2 * (Constants.kPi * radius));
@@ -150,7 +150,7 @@ public class MathFormulas {
      *         to acheive this path)
      * @see {@link #calculateCircleRadius(distanceA, lengthB)}
      */
-    public double calculateAngleOfPath(double distanceA, double lengthB) {
+    public static double calculateAngleOfPath(double distanceA, double lengthB) {
         double radius = calculateCircleRadius(distanceA, lengthB);
         return 2 * (Math.toDegrees((Math.asin((distanceA / (2 * radius))))));
     }
