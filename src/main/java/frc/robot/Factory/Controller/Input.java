@@ -7,11 +7,6 @@ package frc.robot.Factory.Controller;
 /** Add your docs here. */
 public class Input {
 
-    private Input()
-    {
-
-    }
-
     public static Input getInstance()
     {
         return InstanceHolder.mInstance;

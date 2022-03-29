@@ -7,13 +7,20 @@ package frc.robot.Dashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Autonomous.Commands.Turn;
 
 /** Add your docs here. */
 public class AutoDriveChoose {
     private SendableChooser<AutoPosition> chooser = new SendableChooser<>();
     private ShuffleboardTab mTab = Shuffleboard.getTab("Match");
 
-    private AutoDriveChoose()
+    public static AutoDriveChoose getInstance()
+    {
+        return InstanceHolder.mInstance;
+    }
+
+    public void autoDriveChoose()
     {
         Shuffleboard.selectTab("Match");
         for(AutoPosition i : AutoPosition.values())
@@ -23,14 +30,19 @@ public class AutoDriveChoose {
         chooser.setDefaultOption("LEFT", AutoPosition.LEFT);
     }
 
-    public static AutoDriveChoose getInstance()
+    public Command getSelected()
     {
-        return InstanceHolder.mInstance;
-    }
+        switch (chooser.getSelected()) 
+        {
+            case LEFT:
+                return new Turn(90);
 
-    public AutoPosition getSelected()
-    {
-        return chooser.getSelected();
+            case NOTHING:
+                return null;
+
+            default:
+                return null;
+        }
     }
 
     public AutoPosition[] getValues()
