@@ -18,6 +18,8 @@ public class SwerveAlgorithims {
 
     private MkSwerveModule[] modules;
     private variables var;
+    private double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
+    private double hIntegral, hDerivative, hPreviousError, hError;
 
     private SwerveAlgorithims()
     {
@@ -30,7 +32,16 @@ public class SwerveAlgorithims {
         return InstanceHolder.mInstance;
     }
 
-
+    /**
+     * See <a href="https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383">this thread</a>
+     * for more information.
+     * <p>
+     * Note - this function uses 180 minus yaw due to the positioning of our navx.
+     * @param FWD Forward axis of controller
+     * @param STR Strafe axis of controller
+     * @param RCW Rotational axis of controller
+     * @author Ether
+     */
     public void etherSwerve(double FWD, double STR, double RCW)
     {
         var.yaw = navx.getInstance().getNavxYaw();
@@ -78,6 +89,13 @@ public class SwerveAlgorithims {
 
 
 
+   /**
+     * decides whether a driving motor should flip based on where the angular motor's setpoint is.
+     * @param position position of the motor
+     * @param setpoint setpoint for the motor
+     * @return returns best angle of travel for the angular motor, as well as the flip value for the driving motor (as an array so it can return two things in one instead of two seperatly)
+     * @author team 6624
+     */
     public static double[] setDirection(double position, double setpoint)
     {
         double currentAngle = FalconAlgorithims.nativeToDegrees(position, MKTURN.greerRatio);
@@ -98,9 +116,6 @@ public class SwerveAlgorithims {
             return new double[] {(currentAngle + setpointAngleFlipped), -1.0};
         }
     }
-
-    double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
-    double hIntegral, hDerivative, hPreviousError, hError;
 
     //programming done right
     public double headerStraighter(double hSetpoint)
