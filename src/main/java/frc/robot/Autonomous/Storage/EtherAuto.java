@@ -6,7 +6,7 @@ package frc.robot.Autonomous.Storage;
 
 import frc.robot.Constants;
 import frc.robot.Factory.Motor.MkSwerveTrain;
-import frc.robot.ToolShed.Ether;
+import frc.robot.ToolShed.SwerveAlgorithims;
 
 /** Add your docs here. */
 public class EtherAuto {
@@ -54,9 +54,9 @@ public class EtherAuto {
         }
         if(turny == ETHERRCW.Specific)
         {
-            RCWtemp = Ether.getInstance().headerStraighter(turnyAuto);
+            RCWtemp = SwerveAlgorithims.getInstance().headerStraighter(turnyAuto);
         }
-        Ether.getInstance().etherSwerve(-FWDauto, STRauto, RCWtemp);
+        SwerveAlgorithims.getInstance().etherSwerve(-FWDauto, STRauto, RCWtemp);
     }
 
     public boolean isFinished()

@@ -5,12 +5,9 @@
 package frc.robot.Factory.Motor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
 import frc.robot.Constants.MKCANCODER;
 import frc.robot.Constants.MKDRIVE;
-import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
 
 /** Add your docs here. */
@@ -58,5 +55,5 @@ public class MkSwerveModule
         return encoder;
     }
 
-    
+
 }

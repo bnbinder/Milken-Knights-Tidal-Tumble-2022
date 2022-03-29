@@ -16,8 +16,8 @@ import frc.robot.Factory.Controller.Input;
 import frc.robot.Factory.Controller.MkXboxInput;
 import frc.robot.Factory.Controller.MkXboxInput.Type;
 import frc.robot.ToolShed.CommandArray;
-import frc.robot.ToolShed.Ether;
 import frc.robot.ToolShed.MathFormulas;
+import frc.robot.ToolShed.SwerveAlgorithims;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     driverInputValues = Input.getInstance().getDriveInput(driveInput);
-    Ether.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], driverInputValues[2]);
+    SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], driverInputValues[2]);
   }
 
   @Override

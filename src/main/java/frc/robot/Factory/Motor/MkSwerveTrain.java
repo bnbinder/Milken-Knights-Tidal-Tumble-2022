@@ -5,16 +5,9 @@
 package frc.robot.Factory.Motor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-
-import frc.robot.Constants;
-import frc.robot.navx;
-import frc.robot.Autonomous.Storage.EtherAuto;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.MKCANCODER;
-import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
-import frc.robot.ToolShed.Ether;
 import frc.robot.ToolShed.FalconAlgorithims;
 import frc.robot.ToolShed.SwerveAlgorithims;
 
@@ -72,7 +65,7 @@ public class MkSwerveTrain
 
     public void etherSwerve(double FWD, double STR, double RCW)
     {
-        Ether.getInstance().etherSwerve(FWD, STR, RCW);
+        SwerveAlgorithims.getInstance().etherSwerve(FWD, STR, RCW);
     }
 
 
