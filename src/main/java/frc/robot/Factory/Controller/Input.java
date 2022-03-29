@@ -8,5 +8,5 @@ import frc.robot.Factory.Motor.MkSwerveTrain;
 
 /** Add your docs here. */
 public class Input {
-
+    private 
 }

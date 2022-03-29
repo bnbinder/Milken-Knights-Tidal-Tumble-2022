@@ -10,11 +10,14 @@ import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
+import frc.robot.Factory.Controller.MkXbox;
+import frc.robot.Factory.Controller.MkXboxInput;
 import frc.robot.Factory.Motor.MkSwerveDrive;
 import frc.robot.Factory.Motor.MkSwerveModule;
 import frc.robot.Factory.Motor.MkSwerveTrain;
 import frc.robot.Factory.Motor.MkSwerveTurn;
 import frc.robot.ToolShed.CommandArray;
+import frc.robot.ToolShed.Ether;
 import frc.robot.ToolShed.MathFormulas;
 
 /**
@@ -29,6 +32,7 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   private CommandArray arr = new CommandArray("hello");
+  private MkXbox xbox = new MkXbox(0);
   @Override
   public void robotInit() {}
 
@@ -50,7 +54,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    Ether.getInstance().etherSwerve(FWD, STR, RCW);
+  }
 
   @Override
   public void disabledInit() {}

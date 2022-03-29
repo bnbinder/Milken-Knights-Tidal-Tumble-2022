@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Factory.Controller.MkXboxInput.Type;
 
 /** Add your docs here. */
 public class MkXbox extends XboxController{
@@ -30,9 +31,23 @@ public class MkXbox extends XboxController{
      */
     public MkXboxInput getButton(int port, String name) {
       if (!inputs.containsKey(port)) {
-        inputs.put(port, new MkXboxInput(this, port, name));
+        inputs.put(port, new MkXboxInput(this, port, name, Type.Button, false));
+      }
+      return inputs.get(port);
+    }
+
+
+    public MkXboxInput getButton(int port, String name, boolean toggle) {
+      if (!inputs.containsKey(port)) {
+        inputs.put(port, new MkXboxInput(this, port, name, Type.Button, toggle));
+      }
+      return inputs.get(port);
+    }
+
+    public MkXboxInput getAxis(int port, String name, boolean toggle, double threshold) {
+      if (!inputs.containsKey(port)) {
+        inputs.put(port, new MkXboxInput(this, port, name, Type.Axis, toggle));
       }
       return inputs.get(port);
     }
   }
-}

@@ -14,6 +14,7 @@ public class MkXboxInput {
   private boolean isPressed;
   private Type type;
   private boolean toggle;
+  private double toggleAxisThreshold;
 
   public MkXboxInput(MkXbox joystick, int port, String name, Type type, boolean toggle)
   {
@@ -24,6 +25,18 @@ public class MkXboxInput {
     this.toggle = toggle;
     this.isToggleOn = false;
     this.isPressed = false;
+  }
+
+  public MkXboxInput(MkXbox joystick, int port, String name, Type type, boolean toggle, double toggleAxisThreshold)
+  {
+    this.joystick = joystick;
+    this.port = port;
+    this.name = name;
+    this.type = type;
+    this.toggle = toggle;
+    this.isToggleOn = false;
+    this.isPressed = false;
+    this.toggleAxisThreshold = toggleAxisThreshold;
   }
 
   public boolean isPressed()
@@ -48,17 +61,50 @@ public class MkXboxInput {
 
   public boolean isToggled()
   {
-      if(toggle)
+      if(toggle && type == Type.Button && joystick.getRawButton(port))
       {
-          if(joystick.getRawButton(port))
-          {
+          
             if(!isPressed)
             {
                 isToggleOn = !isToggleOn;
                 isPressed = true;
             }
-          }
+            else
+            {
+              isPressed = false;
+            }
+          
       }
+      else if(toggle && type == Type.Axis && Math.abs(joystick.getRawAxis(port)) > toggleAxisThreshold)
+      {
+          if(!isPressed)
+          {
+              isToggleOn = !isToggleOn;
+              isPressed = true;
+          }
+          else
+          {
+            isPressed = false;
+          }
+        
+      }
+      else
+      {
+        isToggleOn = false;
+      }
+      return isToggleOn;
+  }
+
+  public double getAxis()
+  {
+    if(type == Type.Axis)
+    {
+      return joystick.getRawAxis(port);
+    }
+    else
+    {
+      return 0;
+    }
   }
 
   public enum Type
