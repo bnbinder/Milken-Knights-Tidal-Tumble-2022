@@ -120,10 +120,17 @@ public class SwerveAlgorithims {
     //programming done right
     public double headerStraighter(double hSetpoint)
     {
-        hError = hSetpoint -  navx.getInstance().getNavxYaw();// Error = Target - Actual
-        hIntegral += (hError*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        hDerivative = (hError - hPreviousError) / .02;
-        return hP*hError + hI*hIntegral + hD*hDerivative;
+        if(hSetpoint != 361)
+        {
+            hError = hSetpoint -  navx.getInstance().getNavxYaw();// Error = Target - Actual
+            hIntegral += (hError*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+            hDerivative = (hError - hPreviousError) / .02;
+            return hP*hError + hI*hIntegral + hD*hDerivative;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     private static class InstanceHolder

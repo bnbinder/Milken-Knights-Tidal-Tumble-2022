@@ -103,6 +103,11 @@ public final class Constants {
             public static final int str = 0;
             public static final int rcw = 5;
         }
+
+        public static final int topPOV = 0;
+        public static final int rightPOV = 90;
+        public static final int bottomPOV = 180;
+        public static final int leftPOV = 270;
     }
 
     public static class CANID 

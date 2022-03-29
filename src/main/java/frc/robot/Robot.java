@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driverInputValues = Input.getInstance().getDriveInput(driveInput);
     SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], driverInputValues[2]);
+    SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV() == 0 ? 361 : xbox.getPOV());
   }
 
   @Override
