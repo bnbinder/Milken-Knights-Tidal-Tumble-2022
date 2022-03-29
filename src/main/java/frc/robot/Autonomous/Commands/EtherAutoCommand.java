@@ -8,13 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Autonomous.Storage.EtherAuto;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
-import frc.robot.ToolShed.Ether;
 import frc.robot.ToolShed.MathFormulas;
 
 public class EtherAutoCommand extends CommandBase {
   /** Creates a new EtherAuto. */
-  private double distanceA;
-  private double lengthB;
   private double totalDistance;
   private double thetaTurn;
   private double RCWauto;
@@ -24,8 +21,6 @@ public class EtherAutoCommand extends CommandBase {
   
   public EtherAutoCommand(double distanceA, double lengthB, double RCWauto, double turnyAuto, ETHERAUTO mode, ETHERRCW turny)
   {
-    this.distanceA = distanceA;
-    this.lengthB = lengthB;
     this.RCWauto = RCWauto;
     this.mode = mode;
     this.turny = turny;

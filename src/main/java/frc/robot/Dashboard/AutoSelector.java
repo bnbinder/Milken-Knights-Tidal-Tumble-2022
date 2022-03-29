@@ -6,7 +6,6 @@ package frc.robot.Dashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Autonomous.Commands.Turn;
-import frc.robot.Dashboard.AutoDriveChoose.AutoPosition;
 
 /** Add your docs here. */
 public class AutoSelector {
