@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Autonomous.Commands.EtherAutoCommand;
@@ -74,6 +75,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driverInputValues = Input.getInstance().getDriveInput(driveInput);
     SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()));
+    SmartDashboard.putNumber("angle", Math.tan(driverInputValues[0] / driverInputValues[1]));
   }
 
   @Override
