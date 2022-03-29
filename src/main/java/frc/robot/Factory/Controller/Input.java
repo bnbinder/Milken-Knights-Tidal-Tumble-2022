@@ -4,9 +4,30 @@
 
 package frc.robot.Factory.Controller;
 
+import java.util.HashMap;
+
 import frc.robot.Factory.Motor.MkSwerveTrain;
 
 /** Add your docs here. */
 public class Input {
-    private 
+
+    private Input()
+    {
+
+    }
+
+    public static Input getInstance()
+    {
+        return InstanceHolder.mInstance;
+    }
+    
+    public double[] getDriveInput(MkXboxInput... input)
+    {
+        return new double[] {input[0].getAxis(), input[1].getAxis(), input[2].getAxis()};
+    }
+
+    private static class InstanceHolder
+    {
+        private static final Input mInstance = new Input();
+    } 
 }

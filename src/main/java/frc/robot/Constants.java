@@ -71,6 +71,8 @@ public final class Constants {
         public static final double bottomLeftOffset = -117.24609375;
         public static final double bottomRightOffset = 46.0546875;
 
+        public static final double[] offset = {MKCANCODER.topLeftOffset, MKCANCODER.topRightOffset, MKCANCODER.bottomLeftOffset, MKCANCODER.bottomRightOffset};
+
         public static final AbsoluteSensorRange range = AbsoluteSensorRange.Signed_PlusMinus180;
 
         public static final boolean inverted = true;
@@ -78,52 +80,6 @@ public final class Constants {
 
     public static class MKTRAIN 
     {
-        public static final double[][][] pidf = 
-        {
-            {
-                MKDRIVE.pidf,
-                MKTURN.pidf
-            },
-            {
-                MKDRIVE.pidf,
-                MKTURN.pidf
-            },
-            {
-                MKDRIVE.pidf,
-                MKTURN.pidf
-            },
-            {
-                MKDRIVE.pidf,
-                MKTURN.pidf
-            },
-        };
-
-        public static final NeutralMode[][] mode = 
-        {
-            {MKDRIVE.mode, MKTURN.mode},
-            {MKDRIVE.mode, MKTURN.mode},
-            {MKDRIVE.mode, MKTURN.mode},
-            {MKDRIVE.mode, MKTURN.mode}
-        };
-
-        public static final boolean[][][] inverted =
-        {
-            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
-            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
-            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}},
-            {{MKDRIVE.inverted}, {MKTURN.inverted, MKCANCODER.inverted}}
-        };
-
-        public static final int[][] scurve = 
-        {
-            {MKDRIVE.scurve, MKTURN.scurve},
-            {MKDRIVE.scurve, MKTURN.scurve},
-            {MKDRIVE.scurve, MKTURN.scurve},
-            {MKDRIVE.scurve, MKTURN.scurve}
-        };
-
-        public static final double[] offset = {MKCANCODER.topLeftOffset, MKCANCODER.topRightOffset, MKCANCODER.bottomLeftOffset, MKCANCODER.bottomRightOffset};
-
         public static final double L = 22.57;
         public static final double W = 22.57;
         public static final double R = Math.sqrt(Math.pow(L, 2) + Math.pow(W, 2));
@@ -140,6 +96,13 @@ public final class Constants {
     {
         public static final int driverPort = 0;
         public static final int opPort = 1;
+
+        public static class DRIVER 
+        {
+            public static final int fwd = 1;
+            public static final int str = 0;
+            public static final int rcw = 5;
+        }
     }
 
     public static class CANID 
@@ -159,12 +122,12 @@ public final class Constants {
         public static final int bottomTurnLeftCANCoderCANID = 15; 
         public static final int bottomTurnRightCANCoderCANID = 17;
         
-        public static final int[][][] MkTrainIds =
+        public static final int[][] MkTrainIds =
         {
-            {{topDriveLeftCANID}, {topTurnLeftCANID, topTurnLeftCANCoderCANID}},
-            {{topDriveRightCANID}, {topTurnRightCANID, topTurnRightCANCoderCANID}},
-            {{bottomDriveLeftCANID}, {bottomTurnLeftCANID, bottomTurnLeftCANCoderCANID}},
-            {{bottomDriveRightCANID}, {bottomTurnRightCANID, bottomTurnRightCANCoderCANID}}
+            {topDriveLeftCANID, topTurnLeftCANID, topTurnLeftCANCoderCANID},
+            {topDriveRightCANID, topTurnRightCANID, topTurnRightCANCoderCANID},
+            {bottomDriveLeftCANID, bottomTurnLeftCANID, bottomTurnLeftCANCoderCANID},
+            {bottomDriveRightCANID, bottomTurnRightCANID, bottomTurnRightCANCoderCANID}
         };
     }
 }

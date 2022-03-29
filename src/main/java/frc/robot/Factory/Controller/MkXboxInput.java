@@ -4,11 +4,12 @@
 
 package frc.robot.Factory.Controller;
 
+import edu.wpi.first.wpilibj.XboxController;
+
 /** Add your docs here. */
 public class MkXboxInput {
-  private MkXbox joystick;
+  private XboxController joystick;
   private int port;
-  private String name;
   private boolean isToggleOn;
   private boolean isTogglePressed;
   private boolean isPressed;
@@ -16,22 +17,20 @@ public class MkXboxInput {
   private boolean toggle;
   private double toggleAxisThreshold;
 
-  public MkXboxInput(MkXbox joystick, int port, String name, Type type, boolean toggle)
+  public MkXboxInput(XboxController joystick, int port, Type type, boolean toggle)
   {
     this.joystick = joystick;
     this.port = port;
-    this.name = name;
     this.type = type;
     this.toggle = toggle;
     this.isToggleOn = false;
     this.isPressed = false;
   }
 
-  public MkXboxInput(MkXbox joystick, int port, String name, Type type, boolean toggle, double toggleAxisThreshold)
+  public MkXboxInput(XboxController joystick, int port, Type type, boolean toggle, double toggleAxisThreshold)
   {
     this.joystick = joystick;
     this.port = port;
-    this.name = name;
     this.type = type;
     this.toggle = toggle;
     this.isToggleOn = false;
@@ -64,27 +63,26 @@ public class MkXboxInput {
       if(toggle && type == Type.Button && joystick.getRawButton(port))
       {
           
-            if(!isPressed)
+            if(!isTogglePressed)
             {
                 isToggleOn = !isToggleOn;
-                isPressed = true;
+                isTogglePressed = true;
             }
             else
             {
-              isPressed = false;
+              isTogglePressed = false;
             }
-          
       }
       else if(toggle && type == Type.Axis && Math.abs(joystick.getRawAxis(port)) > toggleAxisThreshold)
       {
-          if(!isPressed)
+          if(!isTogglePressed)
           {
               isToggleOn = !isToggleOn;
-              isPressed = true;
+              isTogglePressed = true;
           }
           else
           {
-            isPressed = false;
+            isTogglePressed = false;
           }
         
       }
@@ -105,6 +103,11 @@ public class MkXboxInput {
     {
       return 0;
     }
+  }
+
+  public int getPort()
+  {
+    return port;
   }
 
   public enum Type

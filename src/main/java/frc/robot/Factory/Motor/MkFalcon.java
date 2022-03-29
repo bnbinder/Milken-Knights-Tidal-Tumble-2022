@@ -55,12 +55,6 @@ public class MkFalcon {
         falcon.config_kF(0, pid[3]);
     }
 
-    public void setMagicParams(double velocity, double accel)
-    {
-        falcon.configMotionCruiseVelocity(velocity);
-        falcon.configMotionAcceleration(accel);
-    }
-
     public void setFalcon(ControlMode mode, double setpoint)
     {
         falcon.set(mode, setpoint);

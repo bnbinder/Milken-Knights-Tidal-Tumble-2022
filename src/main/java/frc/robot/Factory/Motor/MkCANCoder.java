@@ -22,4 +22,9 @@ public class MkCANCoder {
     {
         return encoder.getAbsolutePosition();
     }
+
+    public void configEncoderOffset(double offset)
+    {
+        encoder.configMagnetOffset(offset);
+    }
 }

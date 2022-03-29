@@ -5,17 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
-import frc.robot.Factory.Controller.MkXbox;
+import frc.robot.Constants.CONTROLLERS.DRIVER;
+import frc.robot.Factory.Controller.Input;
 import frc.robot.Factory.Controller.MkXboxInput;
-import frc.robot.Factory.Motor.MkSwerveDrive;
-import frc.robot.Factory.Motor.MkSwerveModule;
-import frc.robot.Factory.Motor.MkSwerveTrain;
-import frc.robot.Factory.Motor.MkSwerveTurn;
+import frc.robot.Factory.Controller.MkXboxInput.Type;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.Ether;
 import frc.robot.ToolShed.MathFormulas;
@@ -32,9 +31,13 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   private CommandArray arr = new CommandArray("hello");
-  private MkXbox xbox = new MkXbox(0);
+  private XboxController xbox = new XboxController(0);
+  private MkXboxInput[] driveInput = {new MkXboxInput(xbox, DRIVER.fwd, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.str, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.rcw, Type.Axis, false, 0.1)};
+  private double[] driverInputValues;
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+
+  }
 
   @Override
   public void robotPeriodic() {
@@ -55,7 +58,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Ether.getInstance().etherSwerve(FWD, STR, RCW);
+    driverInputValues = Input.getInstance().getDriveInput(driveInput);
+    Ether.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], driverInputValues[2]);
   }
 
   @Override

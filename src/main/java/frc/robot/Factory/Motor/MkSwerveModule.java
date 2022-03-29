@@ -8,17 +8,23 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
+import frc.robot.Constants.MKCANCODER;
+import frc.robot.Constants.MKDRIVE;
+import frc.robot.Constants.MKTRAIN;
+import frc.robot.Constants.MKTURN;
+
 /** Add your docs here. */
 public class MkSwerveModule
 {
-    private MkSwerveDrive drive;
-    private MkSwerveTurn turn;
+    private MkFalcon drive;
+    private MkFalcon turn;
+    private MkCANCoder encoder;
 
-    public MkSwerveModule(int[][] canid, double offset, NeutralMode[] mode, double[][] pid, boolean[][] inverted, int[] scurve, AbsoluteSensorRange range)
+    public MkSwerveModule(int[] canid, double offset)
     {  
-        this.drive = new MkSwerveDrive(canid[0][0], mode[0], pid[0], inverted[0][0], scurve[0]);
-        this.turn = new MkSwerveTurn(canid[1], offset, mode[1], pid[1], inverted[1], scurve[1], range);
-        this.turn.zeroMotorCANCoder();
+        this.drive = new MkFalcon(canid[0], MKDRIVE.mode, MKDRIVE.pidf, MKDRIVE.inverted, MKDRIVE.scurve);
+        this.turn = new MkFalcon(canid[1], MKTURN.mode, MKTURN.pidf, MKTURN.inverted, MKTURN.scurve);
+        this.encoder = new MkCANCoder(canid[2], offset, MKCANCODER.inverted, MKCANCODER.range);
     }
 
     public void setModule(double setpoint, ControlMode mode, double angle)
@@ -27,19 +33,28 @@ public class MkSwerveModule
         turn.setFalcon(ControlMode.Position, angle);
     }
 
-    public void setModuleMagic(double velocity, double accel)
+    public void zeroTurn()
     {
-        drive.getFalcon().configMotionCruiseVelocity(velocity);
-        drive.getFalcon().configMotionAcceleration(accel);
+        turn.setFalconEncoder(encoder.getAbsPosition());
     }
 
-    public MkSwerveDrive driveMotor()
+    public void zeroDrive()
+    {
+        drive.setFalconEncoder(0);
+    }
+
+    public MkFalcon driveMotor()
     {
         return drive;
     }
 
-    public MkSwerveTurn turnMotor()
+    public MkFalcon turnMotor()
     {
         return turn;
+    }
+
+    public MkCANCoder encoder()
+    {
+        return encoder;
     }
 }

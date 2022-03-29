@@ -30,7 +30,9 @@ public class MkSwerveTrain
         modules = new MkSwerveModule[4];
         for(int i = 0; i < modules.length; i++)
         {
-            modules[i] = new MkSwerveModule(CANID.MkTrainIds[i], MKTRAIN.offset[i], MKTRAIN.mode[i], MKTRAIN.pidf[i], MKTRAIN.inverted[i], MKTRAIN.scurve[i], MKCANCODER.range);
+            modules[i] = new MkSwerveModule(CANID.MkTrainIds[i], MKCANCODER.offset[i]);
+            modules[i].zeroTurn();
+            modules[i].zeroDrive();
         }
         vars = new variables();
     }
@@ -77,14 +79,6 @@ public class MkSwerveTrain
     public MkSwerveModule[] getModules()
     {
         return modules;
-    }
-
-    public void setModuleMagic(double velocity, double accel)
-    {
-        for(int i = 0; i < modules.length; i++)
-        {
-            modules[i].setModuleMagic(velocity, accel);
-        }
     }
 
     public void setModuleTurn(double angle)
