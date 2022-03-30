@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Factory.Motor.MkSwerveTrain;
+import frc.robot.Mechanisims.MkSwerveTrain;
 
 public class Shuffle {
 

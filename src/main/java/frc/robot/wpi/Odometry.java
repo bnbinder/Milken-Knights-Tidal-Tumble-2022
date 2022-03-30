@@ -16,7 +16,7 @@ import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.ODO;
 import frc.robot.Factory.Motor.MkSwerveModule;
-import frc.robot.Factory.Motor.MkSwerveTrain;
+import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.FalconAlgorithims;
 
 /** Add your docs here. */
@@ -68,11 +68,6 @@ public class Odometry {
     navX2d, new Pose2d(0, 0, new Rotation2d()));
 
     Pose2d m_pose = new Pose2d();
-
-    public Odometry()
-    {
-
-    }
 
     public static Odometry getInstance()
     {

@@ -2,31 +2,34 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Factory.Motor;
+package frc.robot.Mechanisims;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.MKCANCODER;
 import frc.robot.Constants.MKTURN;
+import frc.robot.Factory.Motor.MkSwerveModule;
 import frc.robot.ToolShed.FalconAlgorithims;
 
 
 /** Add your docs here. */
 public class MkSwerveTrain 
 {
-    private MkSwerveModule[] modules;
-    public variables vars;
+    private MkSwerveModule[] modules = {
+        new MkSwerveModule(CANID.MkTrainIds[0], MKCANCODER.offset[0]),
+        new MkSwerveModule(CANID.MkTrainIds[1], MKCANCODER.offset[1]),
+        new MkSwerveModule(CANID.MkTrainIds[2], MKCANCODER.offset[2]),
+        new MkSwerveModule(CANID.MkTrainIds[3], MKCANCODER.offset[3])
+    };
+    public variables vars = new variables();
 
-    private MkSwerveTrain()
+    public void startTrain()
     {
-        modules = new MkSwerveModule[4];
         for(int i = 0; i < modules.length; i++)
         {
-            modules[i] = new MkSwerveModule(CANID.MkTrainIds[i], MKCANCODER.offset[i]);
             modules[i].zeroTurn();
             modules[i].zeroDrive();
         }
-        vars = new variables();
     }
 
     public static MkSwerveTrain getInstance()

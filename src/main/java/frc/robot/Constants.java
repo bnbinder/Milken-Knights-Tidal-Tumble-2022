@@ -98,6 +98,23 @@ public final class Constants {
         public static final double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
     }
 
+    public static class CLIMBER 
+    {
+        public static final double maxNativePosition = 0;
+        public static final boolean isLeftInverted = true;
+        public static final NeutralMode leftClimbNeutralMode = NeutralMode.Brake;
+        public static final NeutralMode rightClimbNeutralMode = NeutralMode.Brake;
+        
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
+        
+        public static final double[] pidf = {kP, kI, kD, kF};
+
+        public static final int scurve = 0;
+    }
+
     public static class NAVX 
     {
         public static final double offset = 0;
@@ -137,6 +154,9 @@ public final class Constants {
         public static final int topTurnRightCANCoderCANID = 18; 
         public static final int bottomTurnLeftCANCoderCANID = 15; 
         public static final int bottomTurnRightCANCoderCANID = 17;
+
+        public static final int leftClimberCANID = 0;
+        public static final int rightClimberCANID = 0;
         
         public static final int[][] MkTrainIds =
         {

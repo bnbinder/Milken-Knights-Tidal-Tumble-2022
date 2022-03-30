@@ -14,6 +14,7 @@ import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
 import frc.robot.Dashboard.AutoDriveChoose;
 import frc.robot.Dashboard.Shuffle;
 import frc.robot.Factory.Controller.Input;
+import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
 import frc.robot.ToolShed.SwerveAlgorithims;
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     AutoDriveChoose.getInstance().autoDriveChoose();
     mRobotContainer = new RobotContainer();
+    MkSwerveTrain.getInstance().startTrain();
   }
 
   @Override
