@@ -89,6 +89,10 @@ public final class Constants {
     {
         public static final double L = 22.57;
         public static final double W = 22.57;
+
+        public static final double widthInches = 29;
+        public static final double heightInches = 29;
+
         public static final double R = Math.sqrt(Math.pow(L, 2) + Math.pow(W, 2));
 
         public static final double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
@@ -150,8 +154,8 @@ public final class Constants {
         public static final double driveSwerveControlKpY = 1;
         public static final double driveSwerveControlKpX = 1;
 
-        public static final double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.L / 2);
-        public static final double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.W / 2);
+        public static final double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.heightInches / 2);
+        public static final double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.widthInches / 2);
 
         public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(
