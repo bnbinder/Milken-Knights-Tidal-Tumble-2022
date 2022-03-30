@@ -36,7 +36,7 @@ public class MkSwerveModule
         if(mode == ControlMode.Velocity)
         {
             this.setpoint = setpoint;
-            setpoint += driveFeed.calculate(drive.getVelocity(), setpoint, 0.02); //TODO might break code
+            //setpoint += driveFeed.calculate(drive.getVelocity(), setpoint, 0.02); //TODO might break code
         }
         drive.setFalcon(mode, setpoint);
         turn.setFalcon(ControlMode.Position, angle);
