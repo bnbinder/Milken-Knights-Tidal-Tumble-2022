@@ -32,10 +32,10 @@ public final class Constants {
         public static final double kA = 0;
         public static final double kV = 0;
         
-        public static final double kP = 0;
+        public static final double kP = 0.21;
         public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kF = 0;
+        public static final double kD = 0 * driveKP;
+        public static final double kF = 1023.0 / maxNativeVelocity;
 
         public static final double[] pidf = {kP, kI, kD, kF};
 
@@ -53,9 +53,9 @@ public final class Constants {
 
     public static class MKTURN 
     {
-        public static final double kP = 0;
+        public static final double kP = 0.00008;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 0.00000001;
         public static final double kF = 0;
         
         public static final double[] pidf = {kP, kI, kD, kF};
