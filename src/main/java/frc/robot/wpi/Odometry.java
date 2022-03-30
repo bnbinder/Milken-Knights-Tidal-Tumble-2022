@@ -130,6 +130,11 @@ public class Odometry {
         return Math.sqrt((Math.abs(Math.pow(m_pose.getX() - ODO.goalXInches, 2))) + (Math.abs(Math.pow(m_pose.getY() - ODO.goalYInches, 2))));
     }
 
+    public double getAngleFromGoal()
+    {
+        return Math.atan((Math.abs(m_pose.getY() - ODO.goalYInches)) / (Math.abs(m_pose.getX() - ODO.goalXInches)));
+    }
+
     private static class InstanceHolder
     {
         private static final Odometry mInstance = new Odometry();
