@@ -22,6 +22,11 @@ public class navx {
         return NAVX.offset + navx.getYaw();
     }
 
+    public AHRS getNavx()
+    {
+        return navx;
+    }
+
     private static class InstanceHolder
     {
         private static final navx mInstance = new navx();

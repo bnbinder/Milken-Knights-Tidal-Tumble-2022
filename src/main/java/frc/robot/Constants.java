@@ -7,6 +7,12 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.Factory.Motor.MkSwerveTrain;
+import frc.robot.ToolShed.FalconAlgorithims;
+
 /** Add your docs here. */
 public final class Constants {
 
@@ -135,4 +141,48 @@ public final class Constants {
             {bottomDriveRightCANID, bottomTurnRightCANID, bottomTurnRightCANCoderCANID}
         };
     }
+
+    public static class AUTO
+    {
+        //auto controlling pid
+        public static double turnSwerveControlKp = 1;
+        public static double driveSwerveControlKpY = 1;
+        public static double driveSwerveControlKpX = 1;
+
+        public static double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.L / 2);
+        public static double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.W / 2);
+
+        public static final SwerveDriveKinematics kDriveKinematics =
+        new SwerveDriveKinematics(
+        new Translation2d(heightMeters, widthMeters),
+        new Translation2d(heightMeters, -widthMeters),
+        new Translation2d(-heightMeters, widthMeters),
+        new Translation2d(-heightMeters, -widthMeters));
+      
+        
+        //actual drive module stats
+        public static final double maxModuleTurnVelo = kPi;
+        public static final double maxModuleTurnAccel = kPi;
+        
+        //actual drive module stats
+        public static final double maxModuleDriveVelo = 1;
+        public static final double maxModuleDriveAccel = 1;
+        
+
+        //for turning constraints
+        public static final double maxAutoTurnVelo = kPi;
+        public static final double maxAutoTurnAccel = kPi;
+        
+        //for trajectory config
+        public static final double maxAutoDriveVelo = 1; //2;
+        public static final double maxAutoDriveAccel = 1; //2;
+
+
+        public static final double maxDriveVelo = 1;
+
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+        new TrapezoidProfile.Constraints(
+            maxAutoTurnVelo, maxAutoTurnAccel);
+    }
+
 }
