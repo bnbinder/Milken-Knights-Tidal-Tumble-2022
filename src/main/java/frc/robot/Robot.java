@@ -38,7 +38,8 @@ public class Robot extends TimedRobot {
   private double pov;
   @Override
   public void robotInit() {
-    AutoDriveChoose.getInstance().autoDriveChoose();
+    Shuffle.getInstance().startAuto();
+    Shuffle.getInstance().startWidgets();
     mRobotContainer = new RobotContainer();
     MkSwerveTrain.getInstance().startTrain();
   }

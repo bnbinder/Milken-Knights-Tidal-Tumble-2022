@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Mechanisims.MkSwerveTrain;
+import frc.robot.wpi.Odometry;
 
 public class Shuffle {
 
@@ -58,9 +59,17 @@ public class Shuffle {
     .getEntry();
   }
 
+  public void startAuto()
+  {
+    AutoDriveChoose.getInstance().autoDriveChoose();
+  }
+
   public void updateValues()
   {
     SmartDashboard.putNumber("ff", MkSwerveTrain.getInstance().getModules()[0].getFF());
+    SmartDashboard.putNumber("x", Odometry.getInstance().getX());
+    SmartDashboard.putNumber("y", Odometry.getInstance().getY());
+    SmartDashboard.putNumber("from goal", Odometry.getInstance().getDistanceFromGoal());
   }
 
   private static class InstanceHolder {

@@ -213,8 +213,8 @@ public final class Constants {
 
     public static class ODO 
     {
-        public static final double goalXInches = 0;
-        public static final double goalYInches = 0;
-        public static final double goalRadius = 0;
+        public static final double goalXInches = 120;
+        public static final double goalYInches = 120;
+        public static final double goalRadius = 60;
     }
 }
