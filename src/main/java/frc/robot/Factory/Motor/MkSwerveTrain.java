@@ -63,12 +63,6 @@ public class MkSwerveTrain
         vars.avgDeg = (vars.deg[0] + vars.deg[1] + vars.deg[2] + vars.deg[3]) / 4.0;
     }
 
-    public void etherSwerve(double FWD, double STR, double RCW)
-    {
-        SwerveAlgorithims.getInstance().etherSwerve(FWD, STR, RCW);
-    }
-
-
     public MkSwerveModule[] getModules()
     {
         return modules;

@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import frc.robot.Constants;
 import frc.robot.navx;
+import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
 import frc.robot.Factory.Motor.MkSwerveModule;
@@ -81,10 +82,11 @@ public class SwerveAlgorithims {
         var.ws3 *= var.mod3[1];
         var.ws4 *= var.mod4[1];
 
-        modules[1].setModule(var.ws2, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.wa2, MKTURN.greerRatio));
-        modules[0].setModule(var.ws1, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.wa1, MKTURN.greerRatio));
-        modules[2].setModule(var.ws3, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.wa3, MKTURN.greerRatio));
-        modules[3].setModule(var.ws4, ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.wa4, MKTURN.greerRatio));
+        modules[1].setModule(var.ws2 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa2, MKTURN.greerRatio));
+        modules[0].setModule(var.ws1 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa1, MKTURN.greerRatio));
+        modules[2].setModule(var.ws3 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa3, MKTURN.greerRatio));
+        modules[3].setModule(var.ws4 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa4, MKTURN.greerRatio));
+        //TODO velocity might break the drive pidf
     }
 
 

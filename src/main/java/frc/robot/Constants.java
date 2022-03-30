@@ -31,11 +31,13 @@ public final class Constants {
         public static final double kS = 0;
         public static final double kA = 0;
         public static final double kV = 0;
+
+        public static final double maxNativeVelocity = 21600; 
         
         public static final double kP = 0.21;
         public static final double kI = 0;
-        public static final double kD = 0 * driveKP;
-        public static final double kF = 1023.0 / maxNativeVelocity;
+        public static final double kD = 0 * kP;
+        public static final double kF = 1023.0 / maxNativeVelocity; //TODO might break the pidf, delete if does
 
         public static final double[] pidf = {kP, kI, kD, kF};
 
@@ -144,12 +146,12 @@ public final class Constants {
     public static class AUTO
     {
         //auto controlling pid
-        public static double turnSwerveControlKp = 1;
-        public static double driveSwerveControlKpY = 1;
-        public static double driveSwerveControlKpX = 1;
+        public static final double turnSwerveControlKp = 1;
+        public static final double driveSwerveControlKpY = 1;
+        public static final double driveSwerveControlKpX = 1;
 
-        public static double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.L / 2);
-        public static double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.W / 2);
+        public static final double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.L / 2);
+        public static final double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.W / 2);
 
         public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(
