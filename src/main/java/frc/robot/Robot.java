@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     arr.addCommand(new Turn(-((MathFormulas.calculateAngleOfPath(24, 24)) % 90)));
     arr.addCommand(new EtherAutoCommand(24, 24, 0, 90, ETHERAUTO.Curve, ETHERRCW.Specific));
-    m_autonomousCommand = mRobotContainer.getAutonomousCommand();// arr.asSequentialCommandGroup();
+    m_autonomousCommand = arr.asSequentialCommandGroup();
     //m_autonomousCommand = AutoDriveChoose.getInstance().getSelected();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -78,8 +78,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     driverInputValues = Input.getInstance().getDriveInput(driveInput);
-    //SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()));
-    DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
+    SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()));
+    //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
     SmartDashboard.putNumber("angle", Math.tan(driverInputValues[0] / driverInputValues[1]));
   }
 
