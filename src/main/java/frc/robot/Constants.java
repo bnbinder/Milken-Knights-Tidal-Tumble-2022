@@ -190,4 +190,11 @@ public final class Constants {
             maxAutoTurnVelo, maxAutoTurnAccel);
     }
 
+
+    public static class ODO 
+    {
+        public static final double goalXInches = 0;
+        public static final double goalYInches = 0;
+        public static final double goalRadius = 0;
+    }
 }

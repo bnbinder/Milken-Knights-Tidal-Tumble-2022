@@ -14,6 +14,7 @@ import frc.robot.navx;
 import frc.robot.Constants.AUTO;
 import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKTRAIN;
+import frc.robot.Constants.ODO;
 import frc.robot.Factory.Motor.MkSwerveModule;
 import frc.robot.Factory.Motor.MkSwerveTrain;
 import frc.robot.ToolShed.FalconAlgorithims;
@@ -122,6 +123,11 @@ public class Odometry {
     public Pose2d getPose()
     {
         return m_pose;
+    }
+
+    public double getDistanceFromGoal()
+    {
+        return Math.sqrt((Math.abs(Math.pow(m_pose.getX() - ODO.goalXInches, 2))) + (Math.abs(Math.pow(m_pose.getY() - ODO.goalYInches, 2))));
     }
 
     private static class InstanceHolder
