@@ -1,9 +1,13 @@
 package frc.robot.Dashboard;
 
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Factory.Motor.MkSwerveTrain;
 
 public class Shuffle {
 
@@ -43,6 +47,20 @@ public class Shuffle {
     } else {
       mUpdateDashboard = true;
     }
+  }
+
+  public void startWidgets()
+  {
+    Shuffleboard.getTab("ShuffleBoard")
+    .add("ff", 0)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 220000)) // specify widget properties here
+    .getEntry();
+  }
+
+  public void updateValues()
+  {
+    SmartDashboard.putNumber("ff", MkSwerveTrain.getInstance().getModules()[0].getFF());
   }
 
   private static class InstanceHolder {

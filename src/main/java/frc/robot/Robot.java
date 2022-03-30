@@ -5,24 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
-import frc.robot.Constants.CONTROLLERS.DRIVER;
 import frc.robot.Dashboard.AutoDriveChoose;
 import frc.robot.Dashboard.Shuffle;
 import frc.robot.Factory.Controller.Input;
-import frc.robot.Factory.Controller.MkXboxInput;
-import frc.robot.Factory.Controller.MkXboxInput.Type;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
 import frc.robot.ToolShed.SwerveAlgorithims;
-import frc.robot.wpi.DriveSubsystem;
 import frc.robot.wpi.RobotContainer;
 
 /**
@@ -39,9 +33,8 @@ public class Robot extends TimedRobot {
   private CommandArray arr = new CommandArray("hello");
   private RobotContainer mRobotContainer;
   private Command m_autonomousCommand;
-  private XboxController xbox = new XboxController(0);
-  private MkXboxInput[] driveInput = {new MkXboxInput(xbox, DRIVER.fwd, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.str, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.rcw, Type.Axis, false, 0.1)};
   private double[] driverInputValues;
+  private double pov;
   @Override
   public void robotInit() {
     AutoDriveChoose.getInstance().autoDriveChoose();
@@ -77,10 +70,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    driverInputValues = Input.getInstance().getDriveInput(driveInput);
-    SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()));
+    driverInputValues = Input.getInstance().getDriveInput();
+    pov = Input.getInstance().getPOV();
+    SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], pov == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(pov));
     //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
-    SmartDashboard.putNumber("angle", Math.tan(driverInputValues[0] / driverInputValues[1]));
   }
 
   @Override

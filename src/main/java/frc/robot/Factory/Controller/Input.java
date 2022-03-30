@@ -4,17 +4,28 @@
 
 package frc.robot.Factory.Controller;
 
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.CONTROLLERS.DRIVER;
+import frc.robot.Factory.Controller.MkXboxInput.Type;
+
 /** Add your docs here. */
 public class Input {
-
+    private XboxController xbox = new XboxController(0);
+    private MkXboxInput[] driveInput = {new MkXboxInput(xbox, DRIVER.fwd, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.str, Type.Axis, false, 0.1), new MkXboxInput(xbox, DRIVER.rcw, Type.Axis, false, 0.1)};
+    
     public static Input getInstance()
     {
         return InstanceHolder.mInstance;
     }
     
-    public double[] getDriveInput(MkXboxInput... input)
+    public double[] getDriveInput()
     {
-        return new double[] {input[0].getAxis(), input[1].getAxis(), input[2].getAxis()};
+        return new double[] {driveInput[0].getAxis(), -driveInput[1].getAxis(), driveInput[2].getAxis()};
+    }
+
+    public double getPOV()
+    {
+        return xbox.getPOV();
     }
 
     private static class InstanceHolder

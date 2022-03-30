@@ -6,6 +6,7 @@ package frc.robot.Factory.Motor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.MKCANCODER;
@@ -19,18 +20,31 @@ public class MkSwerveModule
     private MkFalcon drive;
     private MkFalcon turn;
     private MkCANCoder encoder;
+    private SimpleMotorFeedforward driveFeed;
+    private double setpoint = 0;
 
     public MkSwerveModule(int[] canid, double offset)
     {  
         this.drive = new MkFalcon(canid[0], MKDRIVE.mode, MKDRIVE.pidf, MKDRIVE.inverted, MKDRIVE.scurve);
         this.turn = new MkFalcon(canid[1], MKTURN.mode, MKTURN.pidf, MKTURN.inverted, MKTURN.scurve);
         this.encoder = new MkCANCoder(canid[2], offset, MKCANCODER.inverted, MKCANCODER.range);
+        this.driveFeed = new SimpleMotorFeedforward(MKDRIVE.kS, MKDRIVE.kV, MKDRIVE.kA);
     }
 
     public void setModule(double setpoint, ControlMode mode, double angle)
     {
+        if(mode == ControlMode.Velocity)
+        {
+            this.setpoint = setpoint;
+            setpoint += driveFeed.calculate(drive.getVelocity(), setpoint, 0.02); //TODO might break code
+        }
         drive.setFalcon(mode, setpoint);
         turn.setFalcon(ControlMode.Position, angle);
+    }
+
+    public double getFF()
+    {
+       return driveFeed.calculate(drive.getVelocity(), this.setpoint, 0.02); 
     }
 
     public SwerveModuleState getState() {
@@ -69,6 +83,5 @@ public class MkSwerveModule
     {
         return encoder;
     }
-
 
 }
