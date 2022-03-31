@@ -11,13 +11,11 @@ import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
-import frc.robot.Dashboard.AutoDriveChoose;
 import frc.robot.Dashboard.Shuffle;
 import frc.robot.Factory.Controller.Input;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
-import frc.robot.ToolShed.SwerveAlgorithims;
 import frc.robot.wpi.RobotContainer;
 
 /**
@@ -73,9 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    driverInputValues = Input.getInstance().getDriveInput();
-    pov = Input.getInstance().getPOV();
-    SwerveAlgorithims.getInstance().etherSwerve(driverInputValues[0], driverInputValues[1], pov == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(pov));
+    Input.getInstance().drive();
     //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
   }
 
