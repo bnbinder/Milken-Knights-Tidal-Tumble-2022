@@ -310,4 +310,16 @@ public final class Constants {
         public static final double goalYInches = 120;
         public static final double goalRadius = 60;
     }
+
+    public static class LIGHTS 
+    {
+        public static final int PWMPORT = 0; 
+        public static final int bufferNum = 151; 
+        public static final int MaxRGBValue = 60;
+    }
+
+    public static class LOGS
+    {
+      public static final int maxSizeThreshold = 100000;
+    }
 }
