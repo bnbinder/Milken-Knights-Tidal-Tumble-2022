@@ -45,6 +45,7 @@ public class Shuffle {
     if (mUpdateDashboard) {
       mUpdateDashboard = false;
       //put update functions here
+      updateValues();
     } else {
       mUpdateDashboard = true;
     }
