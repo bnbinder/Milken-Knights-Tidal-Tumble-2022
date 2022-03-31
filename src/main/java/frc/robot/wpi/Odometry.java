@@ -121,7 +121,7 @@ public class Odometry {
 
     public double getDistanceFromGoal()
     {
-        return Math.sqrt((Math.abs(Math.pow(m_pose.getX() - ODO.goalXInches, 2))) + (Math.abs(Math.pow(m_pose.getY() - ODO.goalYInches, 2))));
+        return Math.sqrt((Math.pow(m_pose.getX() - ODO.goalXInches, 2)) + (Math.pow(m_pose.getY() - ODO.goalYInches, 2)));
     }
 
     public double getAngleFromGoal()
