@@ -13,6 +13,7 @@ import frc.robot.Constants.CONTROLLERS.DriveInput;
 import frc.robot.Constants.CONTROLLERS.ElevatorInput;
 import frc.robot.Constants.CONTROLLERS.IntakeInput;
 import frc.robot.Constants.CLIMBER;
+import frc.robot.Constants.CONTROLLERS;
 import frc.robot.Constants.ELEVATOR;
 import frc.robot.Constants.INTAKE;
 import frc.robot.Constants.SHOOTER;
@@ -22,10 +23,12 @@ import frc.robot.Mechanisims.Elevator;
 import frc.robot.Mechanisims.Intake;
 import frc.robot.Mechanisims.Shooter;
 import frc.robot.ToolShed.SwerveAlgorithims;
+import frc.robot.wpi.Odometry;
 
 /** Add your docs here. */
 public class Input {
     private XboxController xbox = new XboxController(0);
+    private MkXboxInput fakeLimelightInput = new MkXboxInput(xbox, CONTROLLERS.fakeLimelight, Type.Button, false);
     private MkXboxInput[] driveInput = {new MkXboxInput(xbox, DriveInput.fwd, Type.Axis, false, 0.1), new MkXboxInput(xbox, DriveInput.str, Type.Axis, false, 0.1), new MkXboxInput(xbox, DriveInput.rcw, Type.Axis, false, 0.1)};
     private MkXboxInput intakeInput = new MkXboxInput(xbox, IntakeInput.intake, Type.Button, true);
     private MkXboxInput rollerInput = new MkXboxInput(xbox, IntakeInput.roller, Type.Axis, false, 0.1);
@@ -134,7 +137,7 @@ public class Input {
 
     public void drive()
     {
-        swerve.etherSwerve(driveInput[0].getAxis(), -driveInput[1].getAxis(), pov == 0 ? driveInput[2].getAxis() : swerve.headerStraighter(pov));
+        swerve.etherSwerve(driveInput[0].getAxis(), -driveInput[1].getAxis(), pov == 0 ? (fakeLimelightInput.isPressed() ? swerve.headerStraighter(Odometry.getInstance().getAngleFromGoal()) : driveInput[2].getAxis()) : swerve.headerStraighter(pov));
     }
 
     public void mechanisims()

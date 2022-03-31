@@ -215,6 +215,8 @@ public final class Constants {
             public static final int intake = 0;
         }
 
+        public static final int fakeLimelight = 1;
+
         public static final int topPOV = 0;
         public static final int rightPOV = 90;
         public static final int bottomPOV = 180;
