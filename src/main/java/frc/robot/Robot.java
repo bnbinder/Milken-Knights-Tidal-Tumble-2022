@@ -16,6 +16,7 @@ import frc.robot.Factory.Controller.Input;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
+import frc.robot.wpi.Odometry;
 import frc.robot.wpi.RobotContainer;
 
 /**
@@ -64,6 +65,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    Odometry.getInstance().resetPose();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
