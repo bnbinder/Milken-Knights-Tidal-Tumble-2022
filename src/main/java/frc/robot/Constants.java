@@ -115,6 +115,54 @@ public final class Constants {
         public static final int scurve = 0;
     }
 
+    public static class SHOOTER 
+    {
+        public static final double maxNativeShooterVelocity = 0;
+        public static final double lowGoalNativeVelocity = 0;
+        public static final boolean isLeftInverted = true;
+        public static final NeutralMode leftShootNeutralMode = NeutralMode.Coast;
+        public static final NeutralMode rightShootNeutralMode = NeutralMode.Coast;
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
+
+        public static final double[] pidf = {kP, kI, kD, kF};
+
+        public static final int scurve = 0;
+    }
+
+    public static class INTAKE 
+    {
+        public static final double maxIntakeNativePosition = 0;
+        public static final NeutralMode intakeNeutralMode = NeutralMode.Brake;
+        public static final NeutralMode rollerNeutralMode = NeutralMode.Coast;
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
+
+        public static final double[] pidf = {kP, kI, kD, kF};
+
+        public static final int scurve = 0;
+    }
+
+    public static class ELEVATOR 
+    {
+        public static final NeutralMode elevatorNeutralMode = NeutralMode.Coast;
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kF = 0;
+
+        public static final double[] pidf = {kP, kI, kD, kF};
+
+        public static final int scurve = 0;
+    }
+
     public static class NAVX 
     {
         public static final double offset = 0;
@@ -157,6 +205,14 @@ public final class Constants {
 
         public static final int leftClimberCANID = 0;
         public static final int rightClimberCANID = 0;
+
+        public static final int leftShooterCANID = 0;
+        public static final int rightShooterCANID = 0;
+
+        public static final int intakeCANID = 0;
+        public static final int rollerCANID = 0;
+
+        public static final int elevatorCANID = 0;
         
         public static final int[][] MkTrainIds =
         {
