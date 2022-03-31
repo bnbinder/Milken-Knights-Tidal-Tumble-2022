@@ -37,10 +37,8 @@ public class Robot extends TimedRobot {
   private double pov;
   @Override
   public void robotInit() {
-    Shuffle.getInstance().startAuto();
-    Shuffle.getInstance().startWidgets();
     mRobotContainer = new RobotContainer();
-    MkSwerveTrain.getInstance().startTrain();
+    HQ.getInstance().startMechanisms();
   }
 
   @Override
