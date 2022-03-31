@@ -33,14 +33,20 @@ public class Climber {
         rightClimb.getFalcon().configReverseSoftLimitThreshold(0);
     }
 
-    public void setLeftClimb(double setpoint)
+    public void setLeftClimb(double setpoint, ControlMode mode)
     {
-        leftClimb.setFalcon(ControlMode.PercentOutput, setpoint);
+        leftClimb.setFalcon(mode, setpoint);
     }
 
-    public void setRightClimb(double setpoint)
+    public void setRightClimb(double setpoint, ControlMode mode)
     {
-        rightClimb.setFalcon(ControlMode.PercentOutput, setpoint);
+        rightClimb.setFalcon(mode, setpoint);
+    }
+
+    public void setClimb(double setpoint, ControlMode mode)
+    {
+        leftClimb.setFalcon(mode, setpoint);
+        rightClimb.setFalcon(mode, setpoint);
     }
 
     public void setLeftEncoder(double setpoint)

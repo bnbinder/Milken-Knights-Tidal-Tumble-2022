@@ -31,6 +31,12 @@ public class Shooter
         shootRight.setFalcon(mode, setpoint);
     }
 
+    public void setShoot(double setpoint, ControlMode mode)
+    {
+        shootLeft.setFalcon(mode, setpoint);
+        shootRight.setFalcon(mode, setpoint);
+    }
+
     private static class InstanceHolder
     {
         private static final Shooter mInstance = new Shooter();

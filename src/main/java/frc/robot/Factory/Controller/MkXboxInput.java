@@ -95,7 +95,7 @@ public class MkXboxInput {
 
   public double getAxis()
   {
-    if(type == Type.Axis)
+    if(type == Type.Axis && Math.abs(joystick.getRawAxis(port)) >= toggleAxisThreshold)
     {
       return joystick.getRawAxis(port);
     }
@@ -108,6 +108,11 @@ public class MkXboxInput {
   public int getPort()
   {
     return port;
+  }
+
+  public double getThreshold()
+  {
+    return toggleAxisThreshold;
   }
 
   public enum Type

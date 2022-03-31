@@ -113,6 +113,9 @@ public final class Constants {
         public static final double[] pidf = {kP, kI, kD, kF};
 
         public static final int scurve = 0;
+
+        public static final double climbUpSpeed = 0.5;
+        public static final double climbDownSpeed = -0.5;
     }
 
     public static class SHOOTER 
@@ -147,6 +150,8 @@ public final class Constants {
         public static final double[] pidf = {kP, kI, kD, kF};
 
         public static final int scurve = 0;
+
+        public static final double rollerPercentSpeed = 0.5;
     }
 
     public static class ELEVATOR 
@@ -161,6 +166,9 @@ public final class Constants {
         public static final double[] pidf = {kP, kI, kD, kF};
 
         public static final int scurve = 0;
+
+        public static final double elevatorPercentSpeedForward = 0.5;
+        public static final double elevatorPercentSpeedBack = 0.2;
     }
 
     public static class NAVX 
@@ -173,11 +181,38 @@ public final class Constants {
         public static final int driverPort = 0;
         public static final int opPort = 1;
 
-        public static class DRIVER 
+        public static class DriveInput 
         {
             public static final int fwd = 1;
             public static final int str = 0;
             public static final int rcw = 5;
+        }
+
+        public static class ShootInput 
+        {
+            public static final int forwardShoot = 0;
+            public static final int backwardShoot = 0;
+        }
+
+        public static class ClimbInput 
+        {
+            public static final int leftClimbUp = 0;
+            public static final int leftClimbDown = 0;
+            public static final int rightClimbUp = 0;
+            public static final int rightClimbDown = 0;
+            public static final int climb = 0;
+            public static final int autoClimb = 0;
+        }
+
+        public static class ElevatorInput 
+        {
+            public static final int elevator = 0;
+        }
+
+        public static class IntakeInput
+        {
+            public static final int roller = 0;
+            public static final int intake = 0;
         }
 
         public static final int topPOV = 0;
