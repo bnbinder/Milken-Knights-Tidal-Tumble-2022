@@ -193,6 +193,14 @@ public class CommandArray {
         return commands;
     }
 
+    public class addCommandss extends SequentialCommandGroup
+    {
+        public addCommandss()
+        {
+            addCommands();
+        }
+    }
+
     /**
      * "Creates a new SequentialCommandGroup. The given commands will be run sequentially, with the CommandGroup finishing when the last command finishes."
      * @return new SequentialCommandGroup
