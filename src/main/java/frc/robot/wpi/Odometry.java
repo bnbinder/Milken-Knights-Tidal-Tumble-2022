@@ -101,12 +101,12 @@ public class Odometry {
 
     public double getX()
     {
-        return m_pose.getX();
+        return FalconAlgorithims.metersToInches(m_pose.getX());
     }
 
     public double getY()
     {
-        return m_pose.getY();
+        return FalconAlgorithims.metersToInches(m_pose.getY());
     }
 
     public void resetPose()
