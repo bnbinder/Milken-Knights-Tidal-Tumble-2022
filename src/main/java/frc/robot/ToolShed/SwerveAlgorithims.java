@@ -6,6 +6,7 @@ package frc.robot.ToolShed;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.navx;
 import frc.robot.Constants.MKDRIVE;
@@ -26,6 +27,10 @@ public class SwerveAlgorithims {
     {
         modules = MkSwerveTrain.getInstance().getModules();
         var = new variables();
+        var.mod1 = new double[2];
+        var.mod2 = new double[2];
+        var.mod3 = new double[2];
+        var.mod4 = new double[2];
     }
 
     public static SwerveAlgorithims getInstance()
@@ -58,34 +63,25 @@ public class SwerveAlgorithims {
         var.C = FWD - RCW*(MKTRAIN.W/MKTRAIN.R);
         var.D = FWD + RCW*(MKTRAIN.W/MKTRAIN.R);
         
-        var.ws1 = Math.sqrt((Math.pow(var.B, 2)) + (Math.pow(var.C, 2)));      var.wa1 = Math.atan2(var.B,var.C)*180/Constants.kPi;
-        var.ws2 = Math.sqrt((Math.pow(var.B, 2)) + (Math.pow(var.D, 2)));      var.wa2 = Math.atan2(var.B,var.D)*180/Constants.kPi;
-        var.ws3 = Math.sqrt((Math.pow(var.A, 2)) + (Math.pow(var.D, 2)));      var.wa3 = Math.atan2(var.A,var.D)*180/Constants.kPi;
-        var.ws4 = Math.sqrt((Math.pow(var.A, 2)) + (Math.pow(var.C, 2)));      var.wa4 = Math.atan2(var.A,var.C)*180/Constants.kPi; 
+        var.mod1[0] = Math.sqrt((Math.pow(var.B, 2)) + (Math.pow(var.C, 2)));      var.mod1[1] = Math.atan2(var.B,var.C)*180/Constants.kPi;
+        var.mod2[0] = Math.sqrt((Math.pow(var.B, 2)) + (Math.pow(var.D, 2)));      var.mod2[1] = Math.atan2(var.B,var.D)*180/Constants.kPi;
+        var.mod3[0] = Math.sqrt((Math.pow(var.A, 2)) + (Math.pow(var.D, 2)));      var.mod3[1] = Math.atan2(var.A,var.D)*180/Constants.kPi;
+        var.mod4[0] = Math.sqrt((Math.pow(var.A, 2)) + (Math.pow(var.C, 2)));      var.mod4[1] = Math.atan2(var.A,var.C)*180/Constants.kPi; 
 
-        var.max=var.ws1; if(var.ws2>var.max)var.max=var.ws2; if(var.ws3>var.max)var.max=var.ws3; if(var.ws4>var.max)var.max=var.ws4;
-        if(var.max>1){var.ws1/=var.max; var.ws2/=var.max; var.ws3/=var.max; var.ws4/=var.max;}
+        var.max=var.mod1[0]; if(var.mod2[0]>var.max)var.max=var.mod2[0]; if(var.mod3[0]>var.max)var.max=var.mod3[0]; if(var.mod4[0]>var.max)var.max=var.mod4[0];
+        if(var.max>1){var.mod1[0]/=var.max; var.mod2[0]/=var.max; var.mod3[0]/=var.max; var.mod4[0]/=var.max;}
 
 
-        var.mod1 = SwerveAlgorithims.setDirection(modules[1].turnMotor().getPosition(), var.wa1);
-        var.mod2 = SwerveAlgorithims.setDirection(modules[0].turnMotor().getPosition(), var.wa2);
-        var.mod3 = SwerveAlgorithims.setDirection(modules[2].turnMotor().getPosition(), var.wa3);
-        var.mod4 = SwerveAlgorithims.setDirection(modules[3].turnMotor().getPosition(), var.wa4);
+        var.mod1 = SwerveAlgorithims.setDirection(modules[1].turnMotor().getPosition(), var.mod1);
+        var.mod2 = SwerveAlgorithims.setDirection(modules[0].turnMotor().getPosition(), var.mod2);
+        var.mod3 = SwerveAlgorithims.setDirection(modules[2].turnMotor().getPosition(), var.mod3);
+        var.mod4 = SwerveAlgorithims.setDirection(modules[3].turnMotor().getPosition(), var.mod4);
 
-        var.wa1 = var.mod1[0];
-        var.wa2 = var.mod2[0];
-        var.wa3 = var.mod3[0];
-        var.wa4 = var.mod4[0];
-
-        var.ws1 *= var.mod1[1];
-        var.ws2 *= var.mod2[1];
-        var.ws3 *= var.mod3[1];
-        var.ws4 *= var.mod4[1];
-
-        modules[1].setModule(var.ws2 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa2, MKTURN.greerRatio));
-        modules[0].setModule(var.ws1 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa1, MKTURN.greerRatio));
-        modules[2].setModule(var.ws3 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa3, MKTURN.greerRatio));
-        modules[3].setModule(var.ws4 * MKDRIVE.maxNativeVelocity, ControlMode.Velocity, FalconAlgorithims.degreesToNative(var.wa4, MKTURN.greerRatio));
+        SmartDashboard.putNumber("wa1", FalconAlgorithims.degreesToNative(var.mod1[1], MKTURN.greerRatio));
+        modules[1].setModule(var.mod1[0], ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.mod1[1], MKTURN.greerRatio));
+        modules[0].setModule(var.mod2[0], ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.mod2[1], MKTURN.greerRatio));
+        modules[2].setModule(var.mod3[0], ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.mod3[1], MKTURN.greerRatio));
+        modules[3].setModule(var.mod4[0], ControlMode.PercentOutput, FalconAlgorithims.degreesToNative(var.mod4[1], MKTURN.greerRatio));
         //TODO velocity might break the drive pidf
     }
 
@@ -98,24 +94,24 @@ public class SwerveAlgorithims {
      * @return returns best angle of travel for the angular motor, as well as the flip value for the driving motor (as an array so it can return two things in one instead of two seperatly)
      * @author team 6624
      */
-    public static double[] setDirection(double position, double setpoint)
+    public static double[] setDirection(double position, double[] mod)
     {
         double currentAngle = FalconAlgorithims.nativeToDegrees(position, MKTURN.greerRatio);
         // find closest angle to setpoint
-        double setpointAngle = FalconAlgorithims.closestAngle(currentAngle, setpoint);
+        double setpointAngle = FalconAlgorithims.closestAngle(currentAngle, mod[1]);
         // find closest angle to setpoint + 180
-        double setpointAngleFlipped = FalconAlgorithims.closestAngle(currentAngle, setpoint + 180.0);
+        double setpointAngleFlipped = FalconAlgorithims.closestAngle(currentAngle, mod[1] + 180.0);
         // if the closest angle to setpoint is shorter
         if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped))
         {
             // unflip the motor direction use the setpoint
-            return new double[] {(currentAngle + setpointAngle), 1.0};
+            return new double[] {mod[0],(currentAngle + setpointAngle)};
         }
         // if the closest angle to setpoint + 180 is shorter
         else
         {
             // flip the motor direction and use the setpoint + 180
-            return new double[] {(currentAngle + setpointAngleFlipped), -1.0};
+            return new double[] {Math.abs(mod[0]) * -1.0, (currentAngle + setpointAngleFlipped)};
         }
     }
 
@@ -148,14 +144,6 @@ public class SwerveAlgorithims {
         public double B;
         public double C;
         public double D;
-        public double wa1;
-        public double wa2;
-        public double wa3;
-        public double wa4;
-        public double ws1;
-        public double ws2;
-        public double ws3;
-        public double ws4;
         public double mod1[];
         public double mod2[];
         public double mod3[];
