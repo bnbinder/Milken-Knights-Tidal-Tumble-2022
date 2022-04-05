@@ -4,6 +4,8 @@
 
 package frc.robot.Dashboard;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,6 +16,8 @@ import frc.robot.Autonomous.Commands.Turn;
 public class AutoDriveChoose {
     private SendableChooser<AutoPosition> chooser = new SendableChooser<>();
     private ShuffleboardTab mTab = Shuffleboard.getTab("Match");
+    private ComplexWidget positionChooserTab = mTab.add("Auto Chooser", chooser).withWidget(BuiltInWidgets.kSplitButtonChooser);
+
 
     public static AutoDriveChoose getInstance()
     {

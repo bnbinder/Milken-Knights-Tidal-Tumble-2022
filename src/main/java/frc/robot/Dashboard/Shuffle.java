@@ -45,7 +45,6 @@ public class Shuffle {
     if (mUpdateDashboard) {
       mUpdateDashboard = false;
       //put update functions here
-      updateValues();
     } else {
       mUpdateDashboard = true;
     }
@@ -54,7 +53,7 @@ public class Shuffle {
   public void startWidgets()
   {
     Shuffleboard.getTab("ShuffleBoard")
-    .add("ff", 0)
+    .add("fff", 0)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0, "max", 220000)) // specify widget properties here
     .getEntry();
