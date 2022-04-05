@@ -28,16 +28,16 @@ public final class Constants {
 
     public static class MKDRIVE 
     {
-        public static final double kS = 0;
-        public static final double kA = 0;
-        public static final double kV = 0;
+        public static final double kS = 0.1;
+        public static final double kA = 0.1;
+        public static final double kV = 0.1;
 
         public static final double maxNativeVelocity = 21600; 
         
         public static final double kP = 0.21;
         public static final double kI = 0;
         public static final double kD = 0 * kP;
-        public static final double kF = 1023.0 / maxNativeVelocity; //TODO might break the pidf, delete if does
+        public static final double kF = 0;// 1023.0 / maxNativeVelocity; //TODO might break the pidf, delete if does
 
         public static final double[] pidf = {kP, kI, kD, kF};
 
@@ -47,7 +47,7 @@ public final class Constants {
 
         public static final int scurve = 6;
 
-        public static final double greerRatio = 0;
+        public static final double greerRatio = 6.75;
 
         public static final double wheelDiameterInches = 4; 
         public static final double wheelCircumference = wheelDiameterInches * kPi;    
@@ -55,7 +55,7 @@ public final class Constants {
 
     public static class MKTURN 
     {
-        public static final double kP = 0.00008;
+        public static final double kP = 0.085;//0.00008;
         public static final double kI = 0;
         public static final double kD = 0.00000001;
         public static final double kF = 0;
@@ -68,15 +68,15 @@ public final class Constants {
 
         public static final int scurve = 6;
 
-        public static final double greerRatio = 0;
+        public static final double greerRatio = 12.8;
     }
 
     public static class MKCANCODER
     {
-        public static final double topLeftOffset = -72.685546875;
-        public static final double topRightOffset = -9.4921875;
-        public static final double bottomLeftOffset = -117.24609375;
-        public static final double bottomRightOffset = 46.0546875;
+        public static final double topLeftOffset = -74.53125;
+        public static final double topRightOffset = 131.1328125;
+        public static final double bottomLeftOffset = -121.640625;
+        public static final double bottomRightOffset = 47.197265625;
 
         public static final double[] offset = {MKCANCODER.topLeftOffset, MKCANCODER.topRightOffset, MKCANCODER.bottomLeftOffset, MKCANCODER.bottomRightOffset};
 
@@ -96,12 +96,15 @@ public final class Constants {
         public static final double R = Math.sqrt(Math.pow(L, 2) + Math.pow(W, 2));
 
         public static final double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
+
+        public static final double speedLimit = 5;
     }
 
     public static class CLIMBER 
     {
-        public static final double maxNativePosition = 0;
-        public static final boolean isLeftInverted = true;
+        public static final double maxNativePosition = 290000;
+        public static final double minNativePosition = 9000;
+        public static final boolean isLeftInverted = false;
         public static final NeutralMode leftClimbNeutralMode = NeutralMode.Brake;
         public static final NeutralMode rightClimbNeutralMode = NeutralMode.Brake;
         
@@ -114,19 +117,20 @@ public final class Constants {
 
         public static final int scurve = 0;
 
-        public static final double climbUpSpeed = 0.5;
-        public static final double climbDownSpeed = -0.5;
+        public static final double climbUpSpeed = 0.1;
+        public static final double climbDownSpeed = -0.1;
     }
 
     public static class SHOOTER 
     {
-        public static final double maxNativeShooterVelocity = 0;
+        public static final double maxNativeShooterVelocity = 18900;
+        public static final double maxError = 1580;
         public static final double lowGoalNativeVelocity = 0;
-        public static final boolean isLeftInverted = true;
+        public static final boolean isLeftInverted = false;
         public static final NeutralMode leftShootNeutralMode = NeutralMode.Coast;
         public static final NeutralMode rightShootNeutralMode = NeutralMode.Coast;
 
-        public static final double kP = 0;
+        public static final double kP = 0.55;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kF = 0;
@@ -134,23 +138,28 @@ public final class Constants {
         public static final double[] pidf = {kP, kI, kD, kF};
 
         public static final int scurve = 0;
+
+        public static final double kS = 0;
+        public static final double kA = 0;
+        public static final double kV = 0;
     }
 
     public static class INTAKE 
     {
-        public static final double maxIntakeNativePosition = 0;
+        public static final double maxIntakeNativePosition = 7350;
         public static final NeutralMode intakeNeutralMode = NeutralMode.Brake;
         public static final NeutralMode rollerNeutralMode = NeutralMode.Coast;
 
-        public static final double kP = 0;
+        public static final double kP = 0.04;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = kP * 0.6;
         public static final double kF = 0;
 
         public static final double[] pidf = {kP, kI, kD, kF};
 
         public static final int scurve = 0;
 
+        public static final double intakePercentSpeed = 0.2;
         public static final double rollerPercentSpeed = 0.5;
     }
 
@@ -158,7 +167,7 @@ public final class Constants {
     {
         public static final NeutralMode elevatorNeutralMode = NeutralMode.Coast;
 
-        public static final double kP = 0;
+        public static final double kP = 0.1;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kF = 0;
@@ -185,34 +194,40 @@ public final class Constants {
         {
             public static final int fwd = 1;
             public static final int str = 0;
-            public static final int rcw = 5;
+            public static final int rcw = 4;
+
+            public static final int zeroNavxButton = 3;
+            public static final int moveZeroButton = 1;
+            public static final int resetDriveButton = 2;
+            public static final int zeroEncoderButton = 4;
         }
 
         public static class ShootInput 
         {
-            public static final int forwardShoot = 0;
-            public static final int backwardShoot = 0;
+            public static final int forwardShootTrigger = 3;
+            public static final int backwardShootTrigger = 2;
         }
 
         public static class ClimbInput 
         {
-            public static final int leftClimbUp = 0;
-            public static final int leftClimbDown = 0;
-            public static final int rightClimbUp = 0;
-            public static final int rightClimbDown = 0;
-            public static final int climb = 0;
-            public static final int autoClimb = 0;
+            public static final int leftClimbUpPOV = 180;
+            public static final int leftClimbDownPOV = 0;
+            public static final int rightClimbUpPOV = 270;
+            public static final int rightClimbDownPOV = 90;
+            public static final int climbAxis = 5;
+            public static final int autoClimbButton = 7;
         }
 
         public static class ElevatorInput 
         {
-            public static final int elevator = 0;
+            public static final int elevatorAxis = 1;
         }
 
         public static class IntakeInput
         {
-            public static final int roller = 0;
-            public static final int intake = 0;
+            public static final int rollerForwardBumper = 5;
+            public static final int rollerBackwardBumper = 6;
+            public static final int intakeButton = 1;
         }
 
         public static final int fakeLimelight = 1;
@@ -240,16 +255,16 @@ public final class Constants {
         public static final int bottomTurnLeftCANCoderCANID = 15; 
         public static final int bottomTurnRightCANCoderCANID = 17;
 
-        public static final int leftClimberCANID = 0;
-        public static final int rightClimberCANID = 0;
+        public static final int leftClimberCANID = 22;
+        public static final int rightClimberCANID = 23;
 
-        public static final int leftShooterCANID = 0;
-        public static final int rightShooterCANID = 0;
+        public static final int leftShooterCANID = 19;
+        public static final int rightShooterCANID = 20;
 
-        public static final int intakeCANID = 0;
-        public static final int rollerCANID = 0;
+        public static final int intakeCANID = 11;
+        public static final int rollerCANID = 9;
 
-        public static final int elevatorCANID = 0;
+        public static final int elevatorCANID = 10;
         
         public static final int[][] MkTrainIds =
         {
