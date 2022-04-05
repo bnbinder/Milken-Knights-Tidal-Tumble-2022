@@ -26,14 +26,14 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+ // private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
   //XboxController m_driverController = new XboxController(0);
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  //public RobotContainer() {
     // Configure the button bindings
     
    
@@ -49,7 +49,7 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
    
-  }
+  //}
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -63,7 +63,7 @@ public class RobotContainer {
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
-   */
+   *//*
   public Command getAutonomousCommand() {
     // Create config for trajectory
     TrajectoryConfig config =
@@ -89,7 +89,7 @@ public class RobotContainer {
             List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(3, 0, new Rotation2d(0)),
-            */
+            *//*
             config);
             
 
@@ -116,5 +116,5 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
-  }
+  }*/
 }
