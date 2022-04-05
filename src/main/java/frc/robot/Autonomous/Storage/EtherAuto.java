@@ -4,6 +4,7 @@
 
 package frc.robot.Autonomous.Storage;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.SwerveAlgorithims;
@@ -56,7 +57,7 @@ public class EtherAuto {
         {
             RCWtemp = SwerveAlgorithims.getInstance().headerStraighter(turnyAuto);
         }
-        SwerveAlgorithims.getInstance().etherSwerve(-FWDauto, STRauto, RCWtemp);
+        SwerveAlgorithims.getInstance().etherSwerve(FWDauto/8, -STRauto/8, RCWtemp/8);
     }
 
     public boolean isFinished()

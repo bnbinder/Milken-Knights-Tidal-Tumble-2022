@@ -4,10 +4,12 @@
 
 package frc.robot.Autonomous.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Autonomous.Storage.EtherAuto;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
+import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.MathFormulas;
 
 public class EtherAutoCommand extends CommandBase {
@@ -26,6 +28,7 @@ public class EtherAutoCommand extends CommandBase {
     this.turny = turny;
     this.totalDistance = MathFormulas.calculateArcOfPath(distanceA, lengthB);
     this.thetaTurn = MathFormulas.calculateAngleOfPath(distanceA, lengthB);
+    SmartDashboard.putNumber("tot", this.totalDistance);
     this.turnyAuto = turnyAuto;
 
     //want theta turn, want turny auto, dont want rcw, curve and specific
@@ -43,11 +46,13 @@ public class EtherAutoCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    MkSwerveTrain.getInstance().stopEverything();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished();
+    return EtherAuto.getInstance().isFinished(); 
   }
 }
