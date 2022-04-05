@@ -22,8 +22,6 @@ public class HQ
         Climber.getInstance().startClimb();
         Intake.getInstance().startIntake();
         MkSwerveTrain.getInstance().startTrain();
-        Shuffle.getInstance().startAuto();
-        Shuffle.getInstance().startWidgets();
     }
 
     private static class InstanceHolder
