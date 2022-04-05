@@ -5,6 +5,8 @@
 package frc.robot.Mechanisims;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.MKCANCODER;
 import frc.robot.Constants.MKTURN;
@@ -15,13 +17,30 @@ import frc.robot.ToolShed.FalconAlgorithims;
 /** Add your docs here. */
 public class MkSwerveTrain 
 {
+    public variables vars;
     private MkSwerveModule[] modules = {
         new MkSwerveModule(CANID.MkTrainIds[0], MKCANCODER.offset[0]),
         new MkSwerveModule(CANID.MkTrainIds[1], MKCANCODER.offset[1]),
         new MkSwerveModule(CANID.MkTrainIds[2], MKCANCODER.offset[2]),
         new MkSwerveModule(CANID.MkTrainIds[3], MKCANCODER.offset[3])
     };
-    public variables vars = new variables();
+
+    private MkSwerveTrain()
+    {
+        vars = new variables();
+        vars.deg = new double[4];
+        vars.posInch = new double[4];
+        vars.posMeters = new double[4];
+        vars.posNative = new double[4];
+        vars.velInch = new double[4];
+        vars.velMeters = new double[4];
+        vars.velNative = new double[4];
+    }
+
+    public static MkSwerveTrain getInstance()
+    {
+        return InstanceHolder.mInstance;
+    }
 
     public void startTrain()
     {
@@ -30,11 +49,6 @@ public class MkSwerveTrain
             modules[i].zeroTurn();
             modules[i].zeroDrive();
         }
-    }
-
-    public static MkSwerveTrain getInstance()
-    {
-        return InstanceHolder.mInstance;
     }
 
     public void updateSwerve()
@@ -63,6 +77,7 @@ public class MkSwerveTrain
         vars.avgVelInches = (vars.velInch[0] + vars.velInch[1] + vars.velInch[2] + vars.velInch[3]) / 4.0;
         vars.avgVelNative = (vars.velNative[0] + vars.velNative[1] + vars.velNative[2] + vars.velNative[3]) / 4.0;
         vars.avgDeg = (vars.deg[0] + vars.deg[1] + vars.deg[2] + vars.deg[3]) / 4.0;
+    SmartDashboard.putNumber("key", vars.avgDistInches);
     }
 
     public MkSwerveModule[] getModules()
@@ -76,6 +91,14 @@ public class MkSwerveTrain
         modules[1].turnMotor().setFalcon(ControlMode.Position, angle);
         modules[2].turnMotor().setFalcon(ControlMode.Position, angle);
         modules[3].turnMotor().setFalcon(ControlMode.Position, angle);
+    }
+
+    public void stopEverything()
+    {
+        modules[0].setModule(0, ControlMode.PercentOutput, 0, ControlMode.PercentOutput);
+        modules[1].setModule(0, ControlMode.PercentOutput, 0, ControlMode.PercentOutput);
+        modules[2].setModule(0, ControlMode.PercentOutput, 0, ControlMode.PercentOutput);
+        modules[3].setModule(0, ControlMode.PercentOutput, 0, ControlMode.PercentOutput);
     }
 
     private static class InstanceHolder
