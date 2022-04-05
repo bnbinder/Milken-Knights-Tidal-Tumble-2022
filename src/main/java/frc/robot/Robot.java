@@ -11,6 +11,7 @@ import frc.robot.Autonomous.Commands.EtherAutoCommand;
 import frc.robot.Autonomous.Commands.Turn;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
+import frc.robot.Constants.MKTURN;
 import frc.robot.Dashboard.Shuffle;
 import frc.robot.Factory.Controller.Input;
 import frc.robot.Mechanisims.MkSwerveTrain;
@@ -31,14 +32,15 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   private CommandArray arr = new CommandArray("hello");
-  private RobotContainer mRobotContainer;
+ // private RobotContainer mRobotContainer;
   private Command m_autonomousCommand;
   private double[] driverInputValues;
   private double pov;
   @Override
   public void robotInit() {
-    mRobotContainer = new RobotContainer();
-    HQ.getInstance().startMechanisms();
+    Shuffle.getInstance().startAuto();
+    Shuffle.getInstance().startWidgets();
+    //mRobotContainer = new RobotContainer();
   }
 
   @Override
@@ -51,18 +53,24 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     arr.addCommand(new Turn(-((MathFormulas.calculateAngleOfPath(24, 24)) % 90)));
     arr.addCommand(new EtherAutoCommand(24, 24, 0, 90, ETHERAUTO.Curve, ETHERRCW.Specific));
-    m_autonomousCommand = arr.asSequentialCommandGroup();
+    HQ.getInstance().startMechanisms();
     //m_autonomousCommand = AutoDriveChoose.getInstance().getSelected();
+    m_autonomousCommand = arr.asSequentialCommandGroup();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    MkSwerveTrain.getInstance().updateSwerve();
+  }
 
   @Override
   public void teleopInit() {
+    HQ.getInstance().startMechanisms();
+    MkSwerveTrain.getInstance().getModules()[0].turnMotor().setPIDF(MKTURN.pidf);
     Odometry.getInstance().resetPose();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -71,7 +79,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    MkSwerveTrain.getInstance().updateSwerve();
     Input.getInstance().mechanisims();
+    Odometry.getInstance().updateOdo();
+    Shuffle.getInstance().updateValues();
     //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
   }
 
@@ -82,7 +93,9 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void testInit() {}
+  public void testInit() {
+    HQ.getInstance().startMechanisms();
+  }
 
   @Override
   public void testPeriodic() {}
