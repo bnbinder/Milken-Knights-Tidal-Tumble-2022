@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
@@ -15,55 +16,29 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 /**Command Array*/
 public class CommandArray {
     private ArrayList<Command> commands = new ArrayList<Command>();
-    private ArrayList<String> specialNotes = new ArrayList<String>();
     private ArrayList<String> names = new ArrayList<String>();
     private String name;
-    private String specialNote;
 
     public CommandArray(String name)
     {
         this.name = name;
-        this.specialNote = null;
     }
 
     public CommandArray(String name, Command[] command)
     {
         this.name = name;
-        this.specialNote = null;
-        addCommands(command);
-    }
-
-    public CommandArray(String name, String specialNote)
-    {
-        this.name = name;
-        this.specialNote = specialNote;
-    }
-
-    public CommandArray(String name, String specialNote, Command[] command)
-    {
-        this.name = name;
-        this.specialNote = specialNote;
         addCommands(command);
     }
 
     public void addCommand(Command command)
     {
         commands.add(command);
-        specialNotes.add(null);
         names.add(command.getName());
     }
 
     public void addCommand(Command command, String name)
     {
         commands.add(command);
-        specialNotes.add(null);
-        names.add(name);
-    }
-
-    public void addCommand(Command command, String name, String specialNote)
-    {
-        commands.add(command);
-        specialNotes.add(specialNote);
         names.add(name);
     }
 
@@ -113,36 +88,43 @@ public class CommandArray {
     }
 
 
+
+
+
+
     /**
-     * "Creates a new ParallelCommandGroup. The given commands will be executed simultaneously. The command group will finish when the last command finishes. If the CommandGroup is interrupted, only the commands that are still running will be interrupted."
-     * @param namePar array of string names
-     * @param specialNotePar array of string special notes
-     * @param command commands
+     * "Creates a new ParallelDeadlineGroup. The given commands (including the deadline) will be executed simultaneously. The CommandGroup will finish when the deadline finishes, interrupting all other still-running commands. If the CommandGroup is interrupted, only the commands still running will be interrupted."
+     * @param deadline the command that determines when the group ends
+     * @param commands the commands to be executed
      */
-    public void addParallelCommandGroup(String[] namePar, String[] specialNotePar, Command... command)
+    public void addParallelDeadlineCommandGroup(Command deadline, Command... command)
     {
-        commands.add(new ParallelCommandGroup(command));
-        for(int i = 0; i < namePar.length; i++)
+        commands.add(new ParallelDeadlineGroup(deadline, command));
+        for(Command e : command)
         {
-            names.add(namePar[i]);
-            specialNotes.add(specialNotePar[i]);
+            names.add(e.getName());
         }
     }
 
-    public void setSpecialNote(String name, String newSpecialNote)
+    /**
+     * "Creates a new ParallelDeadlineGroup. The given commands (including the deadline) will be executed simultaneously. The CommandGroup will finish when the deadline finishes, interrupting all other still-running commands. If the CommandGroup is interrupted, only the commands still running will be interrupted."
+     * @param namePar array of string names
+     * @param deadline the command that determines when the group ends
+     * @param commands the commands to be executed
+     */
+    public void addParallelDeadlineCommandGroup(String[] namePar, Command deadline, Command... command)
     {
-        specialNotes.set(names.indexOf(name), newSpecialNote);
+        commands.add(new ParallelDeadlineGroup(deadline, command));
+        for(String e : namePar)
+        {
+            names.add(e);
+        }
     }
 
-    public void setSpecialNote(Command command, String newSpecialNote)
-    {
-        specialNotes.set(commands.indexOf(command), newSpecialNote);
-    }
 
-    public void setSpecialNote(String newSpecialNote)
-    {
-        this.specialNote = newSpecialNote;
-    }
+
+
+
 
     public void setName(String name, String newName)
     {
@@ -161,26 +143,14 @@ public class CommandArray {
 
     public void removeCommand(String name)
     {
-        specialNotes.remove(names.indexOf(name));
         commands.remove(names.indexOf(name));
         names.remove(names.indexOf(name));
     }
 
     public void removeCommand(Command command)
     {
-        specialNotes.remove(commands.indexOf(command));
         names.remove(commands.indexOf(command));
         commands.remove(commands.indexOf(command));
-    }
-
-    public void eraseSpecialNote(String name)
-    {
-        setSpecialNote(name, null);
-    }
-
-    public void eraseSpecialNote(Command command)
-    {
-        setSpecialNote(command.getName(), null);
     }
 
     public Command getCommand(String name)
@@ -197,7 +167,7 @@ public class CommandArray {
     {
         public addCommandss()
         {
-            addCommands();
+            addCommands(toCommandArray());
         }
     }
 
@@ -215,26 +185,6 @@ public class CommandArray {
         return commands.toArray(new Command[commands.size()]);
     }
 
-    public String getSpecialNote(String name)
-    {
-        return specialNotes.get(names.indexOf(name));
-    }
-
-    public String getSpecialNote(Command command)
-    {
-        return specialNotes.get(commands.indexOf(command));
-    }
-
-    public String getSpecialNote()
-    {
-        return this.specialNote;
-    }
-    
-    public String getName(String specialNote)
-    {
-        return names.get(specialNotes.indexOf(specialNote));
-    }
-
     public String getName(Command command)
     {
         return names.get(commands.indexOf(command));
@@ -248,32 +198,18 @@ public class CommandArray {
  /**idk if this works*/
     public String toString()
     {
-        if(commands.isEmpty() || names.isEmpty() || specialNotes.isEmpty())
+        if(commands.isEmpty() || names.isEmpty())
         {
             return "crickets... crickets everywhere";
         }
         else 
         {
             String speech = this.name;
-            if(this.specialNote == null)
-            {
-                speech += ("/n" + "/n");
-            }
-            else  
-            {
-                speech += (" (" + this.specialNote + ")/n" + "/n");
-            }
+            speech += (" /n" + "/n");
             for(int i = 0; i < commands.size(); i++)
             {
                 speech += ("Command " + (i+1) + ": " + names.get(i));
-                if(specialNotes.get(i) == null)
-                {
-                    speech += "/n";
-                }
-                else  
-                {
-                    speech += (" (" + specialNotes.get(i) + ")/n");
-                }
+                speech += ("/n");
             }
             return speech;
         }

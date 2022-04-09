@@ -17,8 +17,10 @@ import frc.robot.Factory.Controller.Input;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.CommandArray;
 import frc.robot.ToolShed.MathFormulas;
+import frc.robot.ToolShed.CommandArray.addCommandss;
 import frc.robot.wpi.Odometry;
 import frc.robot.wpi.RobotContainer;
+import frc.robot.ToolShed.CommandArray.addCommandss;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -55,7 +57,7 @@ public class Robot extends TimedRobot {
     arr.addCommand(new EtherAutoCommand(24, 24, 0, 90, ETHERAUTO.Curve, ETHERRCW.Specific));
     HQ.getInstance().startMechanisms();
     //m_autonomousCommand = AutoDriveChoose.getInstance().getSelected();
-    m_autonomousCommand = arr.asSequentialCommandGroup();
+    m_autonomousCommand = arr.new addCommandss();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
