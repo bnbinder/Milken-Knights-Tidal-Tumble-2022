@@ -16,6 +16,7 @@ public class EtherAuto {
     private double FWDauto;
     private double totalDistance;
     private double avgDistInches = 0;
+    private MkSwerveTrain train = MkSwerveTrain.getInstance();
 
     public static EtherAuto getInstance()
     {
@@ -38,13 +39,11 @@ public class EtherAuto {
      * @param mode Curve or Straight
      * @param turny Specific or Infinite
      * @param turnyAuto (if using specific for turny) angle that robot tries to keep when moving
-     * @see {@link #swerveAutonomousEther(FWD, STR, RCW)}
-     * @see {@link #updateMagicStraight()}
     */
     public void etherAutoUpdate(double thetaTurn, double RCWauto, ETHERAUTO mode, ETHERRCW turny, double turnyAuto)
     {
         double RCWtemp = RCWauto;
-        avgDistInches = MkSwerveTrain.getInstance().vars.avgDistInches;
+        avgDistInches = train.vars.avgDistInches;
         if(mode == ETHERAUTO.Curve)
         {
             FWDauto = Math.cos(((-1 * thetaTurn) + (2 * ((avgDistInches/totalDistance)*thetaTurn))) * Constants.kPi / 180);
@@ -57,9 +56,9 @@ public class EtherAuto {
         }
         if(turny == ETHERRCW.Specific)
         {
-            RCWtemp = MkSwerveTrain.getInstance().headerStraighter(turnyAuto);
+            RCWtemp = train.headerStraighter(turnyAuto);
         }
-        MkSwerveTrain.getInstance().etherSwerve(FWDauto, -STRauto, RCWtemp, ControlMode.MotionMagic);
+        train.etherSwerve(FWDauto, -STRauto, RCWtemp, ControlMode.MotionMagic);
         SmartDashboard.putNumber("dist", avgDistInches);
     }
 

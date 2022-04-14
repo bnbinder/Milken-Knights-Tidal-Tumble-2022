@@ -34,20 +34,23 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private double[] driverInputValues;
   private double pov;
+  private Shuffle shuffle = Shuffle.getInstance();
+  private MkSwerveTrain train = MkSwerveTrain.getInstance();
   @Override
   public void robotInit() {
-    Shuffle.getInstance().startAuto();
-    Shuffle.getInstance().startWidgets();
+    shuffle.startAuto();
+    shuffle.startWidgets();
     Climber.getInstance().startClimb();
-        Intake.getInstance().startIntake();
-        MkSwerveTrain.getInstance().startTrain();
+    Intake.getInstance().startIntake();
+    train.startTrain();
+    Odometry.getInstance().resetPose();
     //mRobotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    Shuffle.getInstance().update();
+    shuffle.update();
   }
 
   @Override
@@ -68,16 +71,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    MkSwerveTrain.getInstance().updateSwerve();
+    train.updateSwerve();
   }
 
   @Override
   public void teleopInit() {
-    Climber.getInstance().startClimb();
-    Intake.getInstance().startIntake();
-    MkSwerveTrain.getInstance().startTrain();
-    MkSwerveTrain.getInstance().getModules()[0].turnMotor().setPIDF(MKTURN.pidf);
-    Odometry.getInstance().resetPose();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -85,10 +83,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    MkSwerveTrain.getInstance().updateSwerve();
+    train.updateSwerve();
     //Input.getInstance().mechanisims();
     Odometry.getInstance().updateOdo();
-    Shuffle.getInstance().updateValues();
+    shuffle.updateValues();
     //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
   }
 
@@ -104,7 +102,8 @@ public class Robot extends TimedRobot {
   public void testInit() {
     Climber.getInstance().startClimb();
     Intake.getInstance().startIntake();
-    MkSwerveTrain.getInstance().startTrain();
+    train.startTrain();
+    Odometry.getInstance().resetPose();
     }
 
   @Override

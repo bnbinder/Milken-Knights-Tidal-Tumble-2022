@@ -11,6 +11,7 @@ import frc.robot.Constants;
 import frc.robot.navx;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.MKCANCODER;
+import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
 import frc.robot.Factory.Motor.MkSwerveModule;
@@ -22,10 +23,10 @@ public class MkSwerveTrain
 {
     public variables vars;
     private MkSwerveModule[] modules = {
-        new MkSwerveModule(CANID.MkTrainIds[0], MKCANCODER.offset[0]),
-        new MkSwerveModule(CANID.MkTrainIds[1], MKCANCODER.offset[1]),
-        new MkSwerveModule(CANID.MkTrainIds[2], MKCANCODER.offset[2]),
-        new MkSwerveModule(CANID.MkTrainIds[3], MKCANCODER.offset[3])
+        new MkSwerveModule(CANID.MkTrainIds[0], MKCANCODER.offset[0], MKDRIVE.pidf, MKTURN.pidf),
+        new MkSwerveModule(CANID.MkTrainIds[1], MKCANCODER.offset[1], MKDRIVE.pidf, MKTURN.pidf),
+        new MkSwerveModule(CANID.MkTrainIds[2], MKCANCODER.offset[2], MKDRIVE.pidf, MKTURN.pidf),
+        new MkSwerveModule(CANID.MkTrainIds[3], MKCANCODER.offset[3], MKDRIVE.pidf, MKTURN.pidf)
     };
 
     private MkSwerveTrain()
@@ -66,14 +67,6 @@ public class MkSwerveTrain
         modules[3].zeroDrive();
     }
 
-    public void setMagic()
-    {
-        modules[0].setMagic();
-        modules[1].setMagic();
-        modules[2].setMagic();
-        modules[3].setMagic();
-    }
-
     public void updateSwerve()
     {
         SmartDashboard.putNumber("angle", vars.deg[0]);
@@ -82,7 +75,7 @@ public class MkSwerveTrain
             //vars.velNative[i] = modules[i].driveMotor().getVelocity();
             
 
-           vars.posNative[i] = modules[i].driveMotor().getPosition();
+           vars.posNative[i] = modules[i].driveMotor().getSelectedSensorPosition();
             
            // vars.velInch[i] = MathFormulas.nativePer100MstoInchesPerSec(vars.velNative[i]);
             
@@ -95,7 +88,7 @@ public class MkSwerveTrain
 
            // vars.posMeters[i] = MathFormulas.nativeToMeters(vars.posNative[i]);
 
-           vars.deg[i] = MathFormulas.nativeToDegrees(modules[i].turnMotor().getPosition(), MKTURN.greerRatio);
+           vars.deg[i] = MathFormulas.nativeToDegrees(modules[i].turnMotor().getSelectedSensorPosition(), MKTURN.greerRatio);
         }
         vars.avgDistInches = (Math.abs(vars.posInch[0]) + Math.abs(vars.posInch[1]) + Math.abs(vars.posInch[2]) + Math.abs(vars.posInch[3])) /4.0;
      //vars.avgVelInches = (vars.velInch[0] + vars.velInch[1] + vars.velInch[2] + vars.velInch[3]) / 4.0;
@@ -110,10 +103,10 @@ public class MkSwerveTrain
 
     public void setModuleTurn(double angle)
     {
-        modules[0].turnMotor().setFalcon(ControlMode.Position, angle);
-        modules[1].turnMotor().setFalcon(ControlMode.Position, angle);
-        modules[2].turnMotor().setFalcon(ControlMode.Position, angle);
-        modules[3].turnMotor().setFalcon(ControlMode.Position, angle);
+        modules[0].turnMotor().set(ControlMode.Position, angle);
+        modules[1].turnMotor().set(ControlMode.Position, angle);
+        modules[2].turnMotor().set(ControlMode.Position, angle);
+        modules[3].turnMotor().set(ControlMode.Position, angle);
     }
 
     public void stopEverything()
@@ -177,10 +170,10 @@ public class MkSwerveTrain
 
         SmartDashboard.putNumber("wa1", vars.mod1[1]);
 
-        vars.mod1 = setDirection(modules[1].turnMotor().getPosition(), vars.mod1);
-        vars.mod2 = setDirection(modules[0].turnMotor().getPosition(), vars.mod2);
-        vars.mod3 = setDirection(modules[2].turnMotor().getPosition(), vars.mod3);
-        vars.mod4 = setDirection(modules[3].turnMotor().getPosition(), vars.mod4);
+        vars.mod1 = setDirection(modules[1].turnMotor().getSelectedSensorPosition(), vars.mod1);
+        vars.mod2 = setDirection(modules[0].turnMotor().getSelectedSensorPosition(), vars.mod2);
+        vars.mod3 = setDirection(modules[2].turnMotor().getSelectedSensorPosition(), vars.mod3);
+        vars.mod4 = setDirection(modules[3].turnMotor().getSelectedSensorPosition(), vars.mod4);
 
         modules[1].setModule(vars.mod1[0], mode, MathFormulas.degreesToNative(vars.mod1[1], MKTURN.greerRatio));
         modules[0].setModule(vars.mod2[0], mode, MathFormulas.degreesToNative(vars.mod2[1], MKTURN.greerRatio));

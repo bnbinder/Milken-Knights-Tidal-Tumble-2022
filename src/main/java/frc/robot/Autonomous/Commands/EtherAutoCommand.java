@@ -41,7 +41,6 @@ public class EtherAutoCommand extends CommandBase {
   public void initialize() {
     train.startDrive();
     train.setDist(totalDistance);
-    train.setMagic();
     ether.setEtherAuto(totalDistance);
     //SmartDashboard.putBoolean("key", true);
   }
