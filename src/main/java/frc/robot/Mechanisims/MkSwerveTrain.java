@@ -7,11 +7,14 @@ package frc.robot.Mechanisims;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.navx;
 import frc.robot.Constants.CANID;
 import frc.robot.Constants.MKCANCODER;
+import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.MKTURN;
 import frc.robot.Factory.Motor.MkSwerveModule;
-import frc.robot.ToolShed.FalconAlgorithims;
+import frc.robot.ToolShed.MathFormulas;
 
 
 /** Add your docs here. */
@@ -35,6 +38,10 @@ public class MkSwerveTrain
         vars.velInch = new double[4];
         vars.velMeters = new double[4];
         vars.velNative = new double[4];
+        vars.mod1 = new double[2];
+        vars.mod2 = new double[2];
+        vars.mod3 = new double[2];
+        vars.mod4 = new double[2];
     }
 
     public static MkSwerveTrain getInstance()
@@ -51,33 +58,49 @@ public class MkSwerveTrain
         }
     }
 
+    public void startDrive()
+    {
+        modules[0].zeroDrive();
+        modules[1].zeroDrive();
+        modules[2].zeroDrive();
+        modules[3].zeroDrive();
+    }
+
+    public void setMagic()
+    {
+        modules[0].setMagic();
+        modules[1].setMagic();
+        modules[2].setMagic();
+        modules[3].setMagic();
+    }
+
     public void updateSwerve()
     {
+        SmartDashboard.putNumber("angle", vars.deg[0]);
         for(int i = 0; i < modules.length; i++)
         {
-            vars.velNative[i] = modules[i].driveMotor().getVelocity();
+            //vars.velNative[i] = modules[i].driveMotor().getVelocity();
             
 
-            vars.posNative[i] = modules[i].driveMotor().getPosition();
+           vars.posNative[i] = modules[i].driveMotor().getPosition();
             
-            vars.velInch[i] = FalconAlgorithims.nativePer100MstoInchesPerSec(vars.velNative[i]);
+           // vars.velInch[i] = MathFormulas.nativePer100MstoInchesPerSec(vars.velNative[i]);
             
 
-            vars.posInch[i] = FalconAlgorithims.nativeToInches(vars.posNative[i]);
+            vars.posInch[i] = MathFormulas.nativeToInches(vars.posNative[i]);
         
             
-            vars.velMeters[i] = FalconAlgorithims.nativePer100MsToMetersPerSec(vars.velNative[i]);
+           // vars.velMeters[i] = MathFormulas.nativePer100MsToMetersPerSec(vars.velNative[i]);
             
 
-            vars.posMeters[i] = FalconAlgorithims.nativeToMeters(vars.posNative[i]);
+           // vars.posMeters[i] = MathFormulas.nativeToMeters(vars.posNative[i]);
 
-            vars.deg[i] = FalconAlgorithims.nativeToDegrees(modules[i].turnMotor().getPosition(), MKTURN.greerRatio);
+           vars.deg[i] = MathFormulas.nativeToDegrees(modules[i].turnMotor().getPosition(), MKTURN.greerRatio);
         }
-        vars.avgDistInches = (vars.posInch[0] + vars.posInch[1] + vars.posInch[2] + vars.posInch[3]) /4.0;
-        vars.avgVelInches = (vars.velInch[0] + vars.velInch[1] + vars.velInch[2] + vars.velInch[3]) / 4.0;
-        vars.avgVelNative = (vars.velNative[0] + vars.velNative[1] + vars.velNative[2] + vars.velNative[3]) / 4.0;
-        vars.avgDeg = (vars.deg[0] + vars.deg[1] + vars.deg[2] + vars.deg[3]) / 4.0;
-    SmartDashboard.putNumber("key", vars.avgDistInches);
+        vars.avgDistInches = (Math.abs(vars.posInch[0]) + Math.abs(vars.posInch[1]) + Math.abs(vars.posInch[2]) + Math.abs(vars.posInch[3])) /4.0;
+     //vars.avgVelInches = (vars.velInch[0] + vars.velInch[1] + vars.velInch[2] + vars.velInch[3]) / 4.0;
+       // vars.avgVelNative = (vars.velNative[0] + vars.velNative[1] + vars.velNative[2] + vars.velNative[3]) / 4.0;
+      vars.avgDeg = (vars.deg[0] + vars.deg[1] + vars.deg[2] + vars.deg[3]) / 4.0;
     }
 
     public MkSwerveModule[] getModules()
@@ -101,6 +124,126 @@ public class MkSwerveTrain
         modules[3].setModule(0, ControlMode.PercentOutput, 0, ControlMode.PercentOutput);
     }
 
+     /**
+     * See <a href="https://www.chiefdelphi.com/t/paper-4-wheel-independent-drive-independent-steering-swerve/107383">this thread</a>
+     * for more information.
+     * <p>
+     * Note - this function uses 180 minus yaw due to the positioning of our navx.
+     * @param FWD Forward axis of controller
+     * @param STR Strafe axis of controller
+     * @param RCW Rotational axis of controller
+     * @author Ether
+     */
+    public void etherSwerve(double FWD, double STR, double RCW, ControlMode mode)
+    {
+        vars.yaw = navx.getInstance().getNavxYaw();
+        vars.temp = FWD * Math.cos(Math.toRadians(vars.yaw)) + STR * Math.sin(Math.toRadians(vars.yaw));
+        STR = -FWD * Math.sin(Math.toRadians(vars.yaw)) + STR * Math.cos(Math.toRadians(vars.yaw));
+        FWD = vars.temp;
+
+        //SmartDashboard.putNumber("frd", FWD);
+        //SmartDashboard.putNumber("str", STR);
+
+        vars.A = STR - RCW*(MKTRAIN.L/MKTRAIN.R);
+        vars.B = STR + RCW*(MKTRAIN.L/MKTRAIN.R);
+        vars.C = FWD - RCW*(MKTRAIN.W/MKTRAIN.R);
+        vars.D = FWD + RCW*(MKTRAIN.W/MKTRAIN.R);
+
+        vars.mod1[1] = Math.atan2(vars.B,vars.C)*180/Constants.kPi;
+        vars.mod2[1] = Math.atan2(vars.B,vars.D)*180/Constants.kPi;
+        vars.mod3[1] = Math.atan2(vars.A,vars.D)*180/Constants.kPi;
+        vars.mod4[1] = Math.atan2(vars.A,vars.C)*180/Constants.kPi; 
+
+      
+        if(mode == ControlMode.MotionMagic)
+        {
+            vars.mod1[0] = vars.autoDist;
+            vars.mod2[0] = vars.autoDist;
+            vars.mod3[0] = vars.autoDist;
+            vars.mod4[0] = vars.autoDist;
+        }
+
+        else
+        {
+            
+            vars.mod1[0] = Math.sqrt((Math.pow(vars.B, 2)) + (Math.pow(vars.C, 2)));      
+            vars.mod2[0] = Math.sqrt((Math.pow(vars.B, 2)) + (Math.pow(vars.D, 2))); 
+            vars.mod3[0] = Math.sqrt((Math.pow(vars.A, 2)) + (Math.pow(vars.D, 2)));           
+            vars.mod4[0] = Math.sqrt((Math.pow(vars.A, 2)) + (Math.pow(vars.C, 2)));
+        
+            vars.max=vars.mod1[0]; if(vars.mod2[0]>vars.max)vars.max=vars.mod2[0]; if(vars.mod3[0]>vars.max)vars.max=vars.mod3[0]; if(vars.mod4[0]>vars.max)vars.max=vars.mod4[0];
+            if(vars.max>1){vars.mod1[0]/=vars.max; vars.mod2[0]/=vars.max; vars.mod3[0]/=vars.max; vars.mod4[0]/=vars.max;}
+        }
+
+        SmartDashboard.putNumber("wa1", vars.mod1[1]);
+
+        vars.mod1 = setDirection(modules[1].turnMotor().getPosition(), vars.mod1);
+        vars.mod2 = setDirection(modules[0].turnMotor().getPosition(), vars.mod2);
+        vars.mod3 = setDirection(modules[2].turnMotor().getPosition(), vars.mod3);
+        vars.mod4 = setDirection(modules[3].turnMotor().getPosition(), vars.mod4);
+
+        modules[1].setModule(vars.mod1[0], mode, MathFormulas.degreesToNative(vars.mod1[1], MKTURN.greerRatio));
+        modules[0].setModule(vars.mod2[0], mode, MathFormulas.degreesToNative(vars.mod2[1], MKTURN.greerRatio));
+        modules[2].setModule(vars.mod3[0], mode, MathFormulas.degreesToNative(vars.mod3[1], MKTURN.greerRatio));
+        modules[3].setModule(vars.mod4[0], mode, MathFormulas.degreesToNative(vars.mod4[1], MKTURN.greerRatio));
+        //TODO velocity might break the drive pidf
+    }
+
+
+
+   /**
+     * decides whether a driving motor should flip based on where the angular motor's setpoint is.
+     * @param position position of the motor
+     * @param setpoint setpoint for the motor
+     * @return returns best angle of travel for the angular motor, as well as the flip value for the driving motor (as an array so it can return two things in one instead of two seperatly)
+     * @author team 6624
+     */
+    public static double[] setDirection(double position, double[] mod)
+    {
+        double currentAngle = MathFormulas.nativeToDegrees(position, MKTURN.greerRatio);
+        // find closest angle to setpoint
+        double setpointAngle = MathFormulas.closestAngle(currentAngle, mod[1]);
+        // find closest angle to setpoint + 180
+        double setpointAngleFlipped = MathFormulas.closestAngle(currentAngle, mod[1] + 180.0);
+        // if the closest angle to setpoint is shorter
+        if (Math.abs(setpointAngle) <= Math.abs(setpointAngleFlipped))
+        {
+            // unflip the motor direction use the setpoint
+            return new double[] {mod[0],(currentAngle + setpointAngle)};
+        }
+        // if the closest angle to setpoint + 180 is shorter
+        else
+        {
+            // flip the motor direction and use the setpoint + 180
+            return new double[] {Math.abs(mod[0]) * -1.0, (currentAngle + setpointAngleFlipped)};
+        }
+    }
+
+    //programming done right
+    public double headerStraighter(double hSetpoint)
+    {
+        if(hSetpoint != 361)
+        {
+            vars.hError = hSetpoint -  navx.getInstance().getNavxYaw();// Error = Target - Actual
+            vars.hIntegral += (vars.hError*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+            vars.hDerivative = (vars.hError - vars.hPreviousError) / .02;
+            return vars.hP*vars.hError + vars.hI*vars.hIntegral + vars.hD*vars.hDerivative;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void setDist(double setpoint)
+    {
+        vars.autoDist = MathFormulas.inchesToNative(setpoint);
+    }
+
+    public enum MODE
+    {
+        auto, tele;
+    }
     private static class InstanceHolder
     {
         private static final MkSwerveTrain mInstance = new MkSwerveTrain();
@@ -108,6 +251,18 @@ public class MkSwerveTrain
 
     public static class variables
     {
+
+        public double temp;
+        public double yaw;
+        public double A;
+        public double B;
+        public double C;
+        public double D;
+        public double mod1[];
+        public double mod2[];
+        public double mod3[];
+        public double mod4[];
+        public double max;
 
         /**Distance variable for driving in autonomous*/
         public double straightDistance;
@@ -146,6 +301,11 @@ public class MkSwerveTrain
     public double avgDistInches;
 
     public double avgDeg;
-   
+
+    public variables var;
+    public double hP = 0.001, hI = 0.0001, hD = hP * 0.1;
+    public double hIntegral, hDerivative, hPreviousError, hError;
+
+    public double autoDist;
     }
 }

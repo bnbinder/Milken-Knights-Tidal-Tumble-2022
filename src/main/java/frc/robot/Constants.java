@@ -10,7 +10,7 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.robot.ToolShed.FalconAlgorithims;
+import frc.robot.ToolShed.MathFormulas;
 
 /** Add your docs here. */
 public final class Constants {
@@ -33,6 +33,7 @@ public final class Constants {
         public static final double kV = 0.1;
 
         public static final double maxNativeVelocity = 21600; 
+        public static final double maxNativeAcceleration = maxNativeVelocity / 10;
         
         public static final double kP = 0.21;
         public static final double kI = 0;
@@ -277,13 +278,19 @@ public final class Constants {
 
     public static class AUTO
     {
+
+        public static class DISTANGLE 
+        {
+            public static final double distanceuno = MathFormulas.calculateArcOfPath(24, 24);
+            public static final double angleuno = MathFormulas.calculateAngleOfPath(24, 24);
+        }
         //auto controlling pid
         public static final double turnSwerveControlKp = 1;
         public static final double driveSwerveControlKpY = 1;
         public static final double driveSwerveControlKpX = 1;
 
-        public static final double heightMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.heightInches / 2);
-        public static final double widthMeters = FalconAlgorithims.inchesToMeters(MKTRAIN.widthInches / 2);
+        public static final double heightMeters = MathFormulas.inchesToMeters(MKTRAIN.heightInches / 2);
+        public static final double widthMeters = MathFormulas.inchesToMeters(MKTRAIN.widthInches / 2);
 
         public static final SwerveDriveKinematics kDriveKinematics =
         new SwerveDriveKinematics(

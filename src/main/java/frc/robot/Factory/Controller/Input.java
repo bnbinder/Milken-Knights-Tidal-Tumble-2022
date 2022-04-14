@@ -19,17 +19,16 @@ import frc.robot.Constants.ELEVATOR;
 import frc.robot.Constants.INTAKE;
 import frc.robot.Constants.MKTRAIN;
 import frc.robot.Constants.SHOOTER;
-import frc.robot.Factory.Controller.MkXboxInput.Type;
+//import frc.robot.Factory.Controller.MkXboxInput.Type;
 import frc.robot.Mechanisims.Climber;
 import frc.robot.Mechanisims.Elevator;
 import frc.robot.Mechanisims.Intake;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.Mechanisims.Shooter;
-import frc.robot.ToolShed.SwerveAlgorithims;
 import frc.robot.wpi.Odometry;
 
 /** Add your docs here. */
-public class Input {
+public class Input {/*
     private XboxController xbox = new XboxController(0);
     private XboxController op = new XboxController(1);
     private MkXboxInput fakeLimelightInput = new MkXboxInput(xbox, CONTROLLERS.fakeLimelight, Type.Button, false);
@@ -41,12 +40,12 @@ public class Input {
     private MkXboxInput autoClimbInput = new MkXboxInput(op, ClimbInput.autoClimbButton, Type.Button, true);
     private MkXboxInput elevatorInput = new MkXboxInput(op, ElevatorInput.elevatorAxis, Type.Axis, false, 0.1);
     private double pov = xbox.getPOV();
-    private SwerveAlgorithims swerve = SwerveAlgorithims.getInstance();
     private Shooter shoot = Shooter.getInstance();
     private Elevator elevator = Elevator.getInstance();
     private Climber climb = Climber.getInstance();
     private Intake intake = Intake.getInstance();
     private double fwd, str, rcw;
+    private MkSwerveTrain train = MkSwerveTrain.getInstance();
 
     public static Input getInstance()
     {
@@ -140,6 +139,7 @@ public class Input {
         {
             climb.setClimb(0, ControlMode.PercentOutput);
         }*/
+        /*
         SmartDashboard.putNumber("pov", pov);
     }
 
@@ -147,11 +147,11 @@ public class Input {
     {
         fwd = driveInput[0].getAxis();
         str = -driveInput[1].getAxis();
-        rcw = (pov == -1) ? (fakeLimelightInput.isPressed() ? swerve.headerStraighter(Odometry.getInstance().getAngleFromGoal()) : driveInput[2].getAxis()) : swerve.headerStraighter(pov);
+        rcw = (pov == -1) ? (fakeLimelightInput.isPressed() ? train.headerStraighter(Odometry.getInstance().getAngleFromGoal()) : driveInput[2].getAxis()) : train.headerStraighter(pov);
         if(fwd != 0 || str != 0 || rcw != 0)
         {
             //MkSwerveTrain.getInstance().getModules()[0].turnMotor().setFalcon(ControlMode.Velocity, fwd * 90);
-            swerve.etherSwerve(fwd / MKTRAIN.speedLimit,str / MKTRAIN.speedLimit, rcw / MKTRAIN.speedLimit);
+            train.etherSwerve(fwd / MKTRAIN.speedLimit,str / MKTRAIN.speedLimit, rcw / MKTRAIN.speedLimit, ControlMode.PercentOutput);
         }
         else
         {
@@ -178,5 +178,5 @@ public class Input {
     private static class InstanceHolder
     {
         private static final Input mInstance = new Input();
-    } 
+    } */
 }

@@ -4,17 +4,18 @@
 
 package frc.robot.Autonomous.Storage;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Mechanisims.MkSwerveTrain;
-import frc.robot.ToolShed.SwerveAlgorithims;
 
 /** Add your docs here. */
 public class EtherAuto {
     private double STRauto;
     private double FWDauto;
     private double totalDistance;
-    private double avgDistInches;
+    private double avgDistInches = 0;
 
     public static EtherAuto getInstance()
     {
@@ -26,6 +27,7 @@ public class EtherAuto {
     public void setEtherAuto(double totalDistance)
     {
         this.totalDistance = totalDistance;
+        avgDistInches = 0;
     }
 
     /**
@@ -39,14 +41,14 @@ public class EtherAuto {
      * @see {@link #swerveAutonomousEther(FWD, STR, RCW)}
      * @see {@link #updateMagicStraight()}
     */
-    public void etherAutoUpdate(double totalDistance, double thetaTurn, double RCWauto, ETHERAUTO mode, ETHERRCW turny, double turnyAuto)
+    public void etherAutoUpdate(double thetaTurn, double RCWauto, ETHERAUTO mode, ETHERRCW turny, double turnyAuto)
     {
         double RCWtemp = RCWauto;
         avgDistInches = MkSwerveTrain.getInstance().vars.avgDistInches;
         if(mode == ETHERAUTO.Curve)
         {
-            FWDauto = Math.cos((-1 * thetaTurn) + (2 * ((avgDistInches/totalDistance)*thetaTurn)) * Constants.kPi / 180);
-            STRauto = Math.sin((-1 * thetaTurn) + (2 * ((avgDistInches/totalDistance)*thetaTurn)) * Constants.kPi / 180);
+            FWDauto = Math.cos(((-1 * thetaTurn) + (2 * ((avgDistInches/totalDistance)*thetaTurn))) * Constants.kPi / 180);
+            STRauto = Math.sin(((-1 * thetaTurn) + (2 * ((avgDistInches/totalDistance)*thetaTurn))) * Constants.kPi / 180);
         }
         else if(mode == ETHERAUTO.Straight)
         {
@@ -55,9 +57,10 @@ public class EtherAuto {
         }
         if(turny == ETHERRCW.Specific)
         {
-            RCWtemp = SwerveAlgorithims.getInstance().headerStraighter(turnyAuto);
+            RCWtemp = MkSwerveTrain.getInstance().headerStraighter(turnyAuto);
         }
-        SwerveAlgorithims.getInstance().etherSwerve(FWDauto/8, -STRauto/8, RCWtemp/8);
+        MkSwerveTrain.getInstance().etherSwerve(FWDauto, -STRauto, RCWtemp, ControlMode.MotionMagic);
+        SmartDashboard.putNumber("dist", avgDistInches);
     }
 
     public boolean isFinished()

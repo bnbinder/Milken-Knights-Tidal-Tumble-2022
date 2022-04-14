@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Autonomous.Storage.EtherAuto;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
 import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
+import frc.robot.Constants.AUTO.DISTANGLE;
 import frc.robot.Mechanisims.MkSwerveTrain;
 import frc.robot.ToolShed.MathFormulas;
 
@@ -20,15 +21,16 @@ public class EtherAutoCommand extends CommandBase {
   private ETHERAUTO mode;
   private ETHERRCW turny;
   private double turnyAuto;
+  private MkSwerveTrain train = MkSwerveTrain.getInstance();
+  private EtherAuto ether = EtherAuto.getInstance();
   
-  public EtherAutoCommand(double distanceA, double lengthB, double RCWauto, double turnyAuto, ETHERAUTO mode, ETHERRCW turny)
+  public EtherAutoCommand(double dist, double ang, double RCWauto, double turnyAuto, ETHERAUTO mode, ETHERRCW turny)
   {
     this.RCWauto = RCWauto;
     this.mode = mode;
     this.turny = turny;
-    this.totalDistance = MathFormulas.calculateArcOfPath(distanceA, lengthB);
-    this.thetaTurn = MathFormulas.calculateAngleOfPath(distanceA, lengthB);
-    SmartDashboard.putNumber("tot", this.totalDistance);
+    this.totalDistance = dist;
+    this.thetaTurn = ang;
     this.turnyAuto = turnyAuto;
 
     //want theta turn, want turny auto, dont want rcw, curve and specific
@@ -36,23 +38,30 @@ public class EtherAutoCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    train.startDrive();
+    train.setDist(totalDistance);
+    train.setMagic();
+    ether.setEtherAuto(totalDistance);
+    //SmartDashboard.putBoolean("key", true);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    EtherAuto.getInstance().etherAutoUpdate(totalDistance, thetaTurn, RCWauto, mode, turny, turnyAuto);
+    ether.etherAutoUpdate(thetaTurn, RCWauto, mode, turny, turnyAuto);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    MkSwerveTrain.getInstance().stopEverything();
+    //MkSwerveTrain.getInstance().stopEverything();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return EtherAuto.getInstance().isFinished(); 
+   // SmartDashboard.putBoolean("false", false);
+    return ether.isFinished(); 
   }
 }

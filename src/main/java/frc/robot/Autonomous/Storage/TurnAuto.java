@@ -27,7 +27,7 @@ public class TurnAuto {
 
     public boolean isFinished()
     {
-        return MkSwerveTrain.getInstance().vars.avgDeg >= angle - 1;
+        return Math.abs(Math.abs(MkSwerveTrain.getInstance().vars.avgDeg) - Math.abs(angle)) <= 1;
     }
 
     private static class InstanceHolder

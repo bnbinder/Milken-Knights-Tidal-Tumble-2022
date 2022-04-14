@@ -16,7 +16,7 @@ import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.ODO;
 import frc.robot.Factory.Motor.MkSwerveModule;
 import frc.robot.Mechanisims.MkSwerveTrain;
-import frc.robot.ToolShed.FalconAlgorithims;
+import frc.robot.ToolShed.MathFormulas;
 
 /** Add your docs here. */
 public class Odometry {
@@ -92,7 +92,7 @@ public class Odometry {
                 fieldRelative
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, navX2d)
                     : new ChassisSpeeds(xSpeed, ySpeed, rot));
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, FalconAlgorithims.nativePer100MsToMetersPerSec(MKDRIVE.maxNativeVelocity));
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MathFormulas.nativePer100MsToMetersPerSec(MKDRIVE.maxNativeVelocity));
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
@@ -101,12 +101,12 @@ public class Odometry {
 
     public double getX()
     {
-        return FalconAlgorithims.metersToInches(m_pose.getX());
+        return MathFormulas.metersToInches(m_pose.getX());
     }
 
     public double getY()
     {
-        return FalconAlgorithims.metersToInches(m_pose.getY());
+        return MathFormulas.metersToInches(m_pose.getY());
     }
 
     public void resetPose()

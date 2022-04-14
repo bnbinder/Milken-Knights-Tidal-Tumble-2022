@@ -14,7 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.MKCANCODER;
 import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKTURN;
-import frc.robot.ToolShed.FalconAlgorithims;
+import frc.robot.ToolShed.MathFormulas;
 
 /** Add your docs here. */
 public class MkSwerveModule
@@ -56,20 +56,20 @@ public class MkSwerveModule
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(FalconAlgorithims.nativePer100MsToMetersPerSec(drive.getVelocity()), new Rotation2d(Math.toRadians(encoder.getAbsPosition())));
+        return new SwerveModuleState(MathFormulas.nativePer100MsToMetersPerSec(drive.getVelocity()), new Rotation2d(Math.toRadians(encoder.getAbsPosition())));
       }
       
       public void setDesiredState(SwerveModuleState desiredState) {
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state =
             SwerveModuleState.optimize(desiredState, new Rotation2d(Math.toRadians(encoder.getAbsPosition())));
-            drive.setFalcon(ControlMode.Velocity, FalconAlgorithims.metersPerSecondToNativeUnitsPer100Ms(state.speedMetersPerSecond));  // + driveFeedforward);
-            turn.setFalcon(ControlMode.Position, FalconAlgorithims.degreesToNative(state.angle.getDegrees(), MKTURN.greerRatio));  // + turnFeedforward);
+            drive.setFalcon(ControlMode.Velocity, MathFormulas.metersPerSecondToNativeUnitsPer100Ms(state.speedMetersPerSecond));  // + driveFeedforward);
+            turn.setFalcon(ControlMode.Position, MathFormulas.degreesToNative(state.angle.getDegrees(), MKTURN.greerRatio));  // + turnFeedforward);
       }            
 
     public void zeroTurn()
     {
-        turn.setFalconEncoder(encoder.getAbsPosition());
+        turn.setFalconEncoder(MathFormulas.degreesToNative(encoder.getAbsPosition(), MKTURN.greerRatio));
     }
 
     public void zeroDrive()
@@ -90,6 +90,12 @@ public class MkSwerveModule
     public MkCANCoder encoder()
     {
         return encoder;
+    }
+
+    public void setMagic()
+    {
+        drive.getFalcon().configMotionCruiseVelocity(MKDRIVE.maxNativeVelocity);
+        drive.getFalcon().configMotionAcceleration(MKDRIVE.maxNativeAcceleration);
     }
 
 }

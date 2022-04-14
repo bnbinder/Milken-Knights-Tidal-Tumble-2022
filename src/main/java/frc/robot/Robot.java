@@ -5,22 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Autonomous.Commands.EtherAutoCommand;
-import frc.robot.Autonomous.Commands.Turn;
-import frc.robot.Autonomous.Storage.EtherAuto.ETHERAUTO;
-import frc.robot.Autonomous.Storage.EtherAuto.ETHERRCW;
+import frc.robot.Autonomous.Commandments.Swerve;
+import frc.robot.Autonomous.Commandments.Swrv;
 import frc.robot.Constants.MKTURN;
+import frc.robot.Constants.AUTO.DISTANGLE;
 import frc.robot.Dashboard.Shuffle;
-import frc.robot.Factory.Controller.Input;
+import frc.robot.Mechanisims.Climber;
+import frc.robot.Mechanisims.Intake;
 import frc.robot.Mechanisims.MkSwerveTrain;
-import frc.robot.ToolShed.CommandArray;
-import frc.robot.ToolShed.MathFormulas;
-import frc.robot.ToolShed.CommandArray.addCommandss;
 import frc.robot.wpi.Odometry;
-import frc.robot.wpi.RobotContainer;
-import frc.robot.ToolShed.CommandArray.addCommandss;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,7 +29,7 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  private CommandArray arr = new CommandArray("hello");
+  //private CommandArray arr = new CommandArray("hello");
  // private RobotContainer mRobotContainer;
   private Command m_autonomousCommand;
   private double[] driverInputValues;
@@ -42,6 +38,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     Shuffle.getInstance().startAuto();
     Shuffle.getInstance().startWidgets();
+    Climber.getInstance().startClimb();
+        Intake.getInstance().startIntake();
+        MkSwerveTrain.getInstance().startTrain();
     //mRobotContainer = new RobotContainer();
   }
 
@@ -53,13 +52,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    arr.addCommand(new Turn(-((MathFormulas.calculateAngleOfPath(24, 24)) % 90)));
-    arr.addCommand(new EtherAutoCommand(24, 24, 0, 90, ETHERAUTO.Curve, ETHERRCW.Specific));
-    HQ.getInstance().startMechanisms();
+    //SmartDashboard.putNumber("af", (DISTANGLE.angleuno) % 90);
+    //SmartDashboard.putNumber("pre", -((DISTANGLE.angleuno) % 90));
+    //arr.addDeadline(new Turn(-((MathFormulas.calculateAngleOfPath(24, 24)) % 90)));
+    //arr.addDeadline(new EtherAutoCommand(24, 24, 0, 90, ETHERAUTO.Curve, ETHERRCW.Specific));
+    
     //m_autonomousCommand = AutoDriveChoose.getInstance().getSelected();
-    m_autonomousCommand = arr.new addCommandss();
+    m_autonomousCommand = new Swrv();
 
     if (m_autonomousCommand != null) {
+     // SmartDashboard.putBoolean("yuy", true);
       m_autonomousCommand.schedule();
     }
   }
@@ -71,7 +73,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    HQ.getInstance().startMechanisms();
+    Climber.getInstance().startClimb();
+    Intake.getInstance().startIntake();
+    MkSwerveTrain.getInstance().startTrain();
     MkSwerveTrain.getInstance().getModules()[0].turnMotor().setPIDF(MKTURN.pidf);
     Odometry.getInstance().resetPose();
     if (m_autonomousCommand != null) {
@@ -82,22 +86,26 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     MkSwerveTrain.getInstance().updateSwerve();
-    Input.getInstance().mechanisims();
+    //Input.getInstance().mechanisims();
     Odometry.getInstance().updateOdo();
     Shuffle.getInstance().updateValues();
     //DriveSubsystem.getInstance().drive(driverInputValues[0], driverInputValues[1], xbox.getPOV() == 0 ? driverInputValues[2] : SwerveAlgorithims.getInstance().headerStraighter(xbox.getPOV()), true);
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    //arr.removeAllCommands();
+  }
 
   @Override
   public void disabledPeriodic() {}
 
   @Override
   public void testInit() {
-    HQ.getInstance().startMechanisms();
-  }
+    Climber.getInstance().startClimb();
+    Intake.getInstance().startIntake();
+    MkSwerveTrain.getInstance().startTrain();
+    }
 
   @Override
   public void testPeriodic() {}

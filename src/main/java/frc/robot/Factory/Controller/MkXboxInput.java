@@ -7,7 +7,7 @@ package frc.robot.Factory.Controller;
 import edu.wpi.first.wpilibj.XboxController;
 
 /** Add your docs here. */
-public class MkXboxInput {
+public class MkXboxInput {/*
   private XboxController joystick;
   private int port;
   private boolean isToggleOn;
@@ -118,5 +118,5 @@ public class MkXboxInput {
   public enum Type
   {
       Axis, Button;
-  }
+  }*/
 }

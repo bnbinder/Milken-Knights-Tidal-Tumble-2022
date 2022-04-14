@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
+import frc.robot.Constants.MKDRIVE;
 import frc.robot.Constants.MKFALCON;
 
 /** Add your docs here. */
@@ -34,6 +35,8 @@ public class MkFalcon {
         falcon.enableVoltageCompensation(true);
         falcon.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, MKFALCON.statusOneMeas);
         falcon.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, MKFALCON.statusTwoMeas);
+        falcon.configMotionCruiseVelocity(MKDRIVE.maxNativeVelocity);
+        falcon.configMotionAcceleration(MKDRIVE.maxNativeAcceleration);
         falcon.configMotionSCurveStrength(scurve);
     }
 
